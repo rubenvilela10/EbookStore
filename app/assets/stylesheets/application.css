@@ -1,0 +1,6 @@
+/*
+ *= require_tree .
+ *= require_self
+ */
+
+/* Tailwind v4 – podes usar tokens como var(--color-gray-700), var(--spacing-6), etc */

@@ -1,0 +1,17 @@
+<div class="order-item-fields">
+  <%= f.label :ebook_id, "Ebook" %>
+  <%= f.collection_select :ebook_id, Ebook.all, :id, :title %>
+
+  <%= link_to "Remove", "#", class: "remove-order-item", data: { action: "remove-item" } %>
+
+  <hr>
+</div>
+
+<script>
+    document.addEventListener("click", function(event) {
+    if (event.target.matches("[data-action='remove-item']")) {
+        event.preventDefault();
+        event.target.closest(".order-item-fields").remove();
+    }
+    });
+</script>

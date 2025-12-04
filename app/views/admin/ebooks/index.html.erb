@@ -1,0 +1,45 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Ebooks" %>
+
+<h1>Ebooks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Status</th>
+      <th>Author</th>
+      <th>Year</th>
+      <th>Seller</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% if @ebooks.count > 0 %>
+      <% @ebooks.each do |ebook| %>
+        <tr>
+          <td><%= ebook.title %></td>
+          <td><%= ebook.description %></td>
+          <td><%= number_to_currency(ebook.price) %></td>
+          <td><%= ebook.status.titleize %></td>
+          <td><%= ebook.author.titleize %></td>
+          <td><%= ebook.date.to_fs(:rfc2822) %></td>
+          <td><%= ebook.date.seller.name %></td>
+          <td>
+            <%= link_to "Show", ebook %> |
+            <%= link_to "Edit", edit_ebook_path(ebook) %> |
+            <%= link_to "Delete", ebook, method: :delete, data: { confirm: "Are you sure?" } %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <p>There are no ebooks registeres in the system.</p>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<%= link_to "New ebook", new_admin_ebook_path %>

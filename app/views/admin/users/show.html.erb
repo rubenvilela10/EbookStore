@@ -1,0 +1,86 @@
+<% content_for :title, "User Details" %>
+
+<p class="text-green-600 mb-4"><%= notice %></p>
+
+<div class="bg-white shadow-lg rounded-xl p-8 border border-gray-200">
+
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
+      <i data-lucide="user" class="w-7 h-7 text-green-600"></i>
+      User Details
+    </h1>
+
+    <%= link_to edit_admin_user_path(@user),
+        class: "inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition" do %>
+      <i data-lucide="pencil" class="w-4 h-4"></i>
+      Edit
+    <% end %>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Name</h2>
+      <p class="text-gray-900 font-medium"><%= @user.name %></p>
+    </div>
+
+    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Email</h2>
+      <p class="text-gray-900 font-medium"><%= @user.email %></p>
+    </div>
+
+    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Phone</h2>
+      <p class="text-gray-900 font-medium"><%= @user.phone_number.presence || "—" %></p>
+    </div>
+
+    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Role</h2>
+      <span class="px-2 py-1 rounded bg-indigo-100 text-indigo-700 text-xs font-medium">
+        <%= @user.role.capitalize %>
+      </span>
+    </div>
+
+    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Status</h2>
+      <% if @user.status == "enabled" %>
+        <span class="px-2 py-1 rounded bg-green-100 text-green-700 text-xs font-medium">Enabled</span>
+      <% else %>
+        <span class="px-2 py-1 rounded bg-red-100 text-red-700 text-xs font-medium">Disabled</span>
+      <% end %>
+    </div>
+
+    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Age</h2>
+      <p class="text-gray-900 font-medium"><%= @user.age.presence || "—" %></p>
+    </div>
+
+    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Address</h2>
+      <p class="text-gray-900 font-medium"><%= @user.address.presence || "—" %></p>
+    </div>
+
+    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Country</h2>
+      <p class="text-gray-900 font-medium"><%= @user.country.presence || "—" %></p>
+    </div>
+
+  </div>
+</div>
+
+<div class="flex items-center justify-between mt-8">
+
+  <%= link_to admin_users_path,
+      class: "inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition" do %>
+    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+    Back to users
+  <% end %>
+
+  <%= link_to admin_user_path(@user),
+        data: { turbo_method: "delete", turbo_confirm: "Are you sure?" },
+        class: "inline-flex items-center gap-1 text-red-600 hover:text-red-800 transition" do %>
+    <i data-lucide="trash-2" class="w-5 h-5"></i>
+    Delete User
+  <% end %>
+
+</div>

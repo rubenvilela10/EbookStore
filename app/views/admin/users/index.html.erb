@@ -1,0 +1,90 @@
+<% content_for :title, "Users" %>
+
+<div class="flex items-center justify-between mb-8">
+  <h1 class="text-3xl font-bold text-gray-800">Users</h1>
+
+  <%= link_to new_admin_user_path,
+        class: "inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition" do %>
+    <i data-lucide="plus" class="w-4 h-4"></i>
+    New User
+  <% end %>
+</div>
+
+<div class="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-200">
+
+  <% if @users.any? %>
+    <table class="min-w-full text-left text-sm text-gray-700">
+      <thead class="bg-gray-50 border-b">
+        <tr>
+          <th class="px-6 py-3 font-semibold text-gray-600">Name</th>
+          <th class="px-6 py-3 font-semibold text-gray-600">Email</th>
+          <th class="px-6 py-3 font-semibold text-gray-600">Role</th>
+          <th class="px-6 py-3 font-semibold text-gray-600">Status</th>
+          <th class="px-6 py-3 font-semibold text-gray-600 text-right">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @users.each do |user| %>
+          <tr class="border-b hover:bg-gray-50 transition">
+
+            <td class="px-6 py-4 font-medium text-gray-900">
+              <%= user.name %>
+            </td>
+
+            <td class="px-6 py-4">
+              <%= user.email %>
+            </td>
+
+            <td class="px-6 py-4">
+              <span class="px-2 py-1 rounded-lg bg-green-100 text-green-700 text-xs font-medium shadow-sm">
+                <%= user.role %>
+              </span>
+            </td>
+
+            <td class="px-6 py-4">
+              <% if user.status == "enabled" %>
+                <span class="px-2 py-1 rounded-lg bg-emerald-100 text-emerald-700 text-xs font-medium shadow-sm flex items-center gap-1 w-fit">
+                  <i data-lucide="check-circle" class="w-3 h-3"></i>
+                  Enabled
+                </span>
+              <% else %>
+                <span class="px-2 py-1 rounded-lg bg-red-100 text-red-700 text-xs font-medium shadow-sm flex items-center gap-1 w-fit">
+                  <i data-lucide="x-circle" class="w-3 h-3"></i>
+                  Disabled
+                </span>
+              <% end %>
+            </td>
+
+            <td class="px-6 py-4 text-right space-x-4">
+
+              <%= link_to admin_user_path(user),
+                  class: "inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 transition" do %>
+                <i data-lucide="eye" class="w-4 h-4"></i>
+                Show
+              <% end %>
+
+              <%= link_to edit_admin_user_path(user),
+                  class: "inline-flex items-center gap-1 text-yellow-600 hover:text-yellow-700 transition" do %>
+                <i data-lucide="pencil" class="w-4 h-4"></i>
+                Edit
+              <% end %>
+
+              <%= link_to admin_user_path(user),
+                  data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                  class: "inline-flex items-center gap-1 text-red-600 hover:text-red-800 transition" do %>
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                Delete
+              <% end %>
+
+            </td>
+
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+  <% else %>
+    <p class="p-10 text-gray-500 text-sm italic">There are no users registered in the system.</p>
+  <% end %>
+</div>

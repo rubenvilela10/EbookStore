@@ -1,0 +1,109 @@
+<% content_for :title, "Orders" %>
+
+<div class="flex items-center justify-between mb-8">
+  <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
+    <i data-lucide="shopping-cart" class="w-7 h-7 text-green-700"></i>
+    Orders
+  </h1>
+
+  <%= link_to new_admin_order_path,
+        class: "flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition" do %>
+    <i data-lucide="plus" class="w-5 h-5"></i>
+    New Order
+  <% end %>
+</div>
+
+<div class="bg-white shadow-md rounded-lg overflow-hidden">
+  <% if @orders.any? %>
+    <table class="min-w-full text-left text-sm text-gray-600">
+      <thead class="bg-gray-100 text-gray-700 uppercase text-xs border-b">
+        <tr>
+          <th class="px-6 py-3">ID</th>
+          <th class="px-6 py-3">Buyer</th>
+          <th class="px-6 py-3">Ebooks</th>
+          <th class="px-6 py-3">Total Price</th>
+          <th class="px-6 py-3">Fee</th>
+          <th class="px-6 py-3">Status</th>
+          <th class="px-6 py-3 text-right">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @orders.each do |order| %>
+          <tr class="border-b hover:bg-gray-50 transition">
+
+            <!-- ID -->
+            <td class="px-6 py-4 font-medium text-gray-900">
+              #<%= order.id %>
+            </td>
+
+            <!-- Buyer -->
+            <td class="px-6 py-4">
+              <%= order.buyer.name %>
+            </td>
+
+            <!-- Ebooks -->
+            <td class="px-6 py-4 text-sm text-gray-700">
+              <% order.ebooks.each do |ebook| %>
+                <span class="block">
+                  • <%= ebook.title %>
+                </span>
+              <% end %>
+            </td>
+
+            <!-- Total Price -->
+            <td class="px-6 py-4 font-medium">
+              <%= number_to_currency(order.price) %>
+            </td>
+
+            <!-- Fee -->
+            <td class="px-6 py-4">
+              <%= number_to_currency(order.fee) %>
+            </td>
+
+            <!-- Status -->
+            <td class="px-6 py-4">
+              <% case order.payment_status %>
+              <% when "paid" %>
+                <span class="px-2 py-1 rounded bg-green-100 text-green-700 text-xs font-medium">Paid</span>
+              <% when "pending" %>
+                <span class="px-2 py-1 rounded bg-yellow-100 text-yellow-700 text-xs font-medium">Pending</span>
+              <% else %>
+                <span class="px-2 py-1 rounded bg-red-100 text-red-700 text-xs font-medium">Cancelled</span>
+              <% end %>
+            </td>
+
+            <!-- Actions -->
+            <td class="px-6 py-4 text-right space-x-3">
+
+              <%= link_to admin_order_path(order),
+                    class: "inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 transition" do %>
+                <i data-lucide="eye" class="w-4 h-4"></i>
+                Show
+              <% end %>
+
+              <%= link_to edit_admin_order_path(order),
+                    class: "inline-flex items-center gap-1 text-yellow-600 hover:text-yellow-800 transition" do %>
+                <i data-lucide="pencil" class="w-4 h-4"></i>
+                Edit
+              <% end %>
+
+              <%= link_to admin_order_path(order),
+                    data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                    class: "inline-flex items-center gap-1 text-red-600 hover:text-red-800 transition" do %>
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                Delete
+              <% end %>
+
+            </td>
+
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="p-10 text-gray-500 text-sm text-center">
+      There are no orders registered in the system.
+    </p>
+  <% end %>
+</div>

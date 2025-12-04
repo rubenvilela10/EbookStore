@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Backoffice</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", defer: true %>
+    <%= javascript_importmap_tags %>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body class="bg-gray-100 min-h-screen text-gray-800">
+    <div class="flex">
+      <aside class="w-64 bg-white shadow-lg border-r border-gray-200 min-h-screen flex flex-col">
+        <div class="px-6 py-6 text-2xl font-bold text-green-700 border-b border-gray-200">
+          Backoffice
+        </div>
+
+        <nav class="flex-1 px-4 py-6 space-y-1">
+
+          <%= link_to admin_root_path,
+              class: "flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-green-100 text-gray-700 hover:text-green-700 transition" do %>
+            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+            Dashboard
+          <% end %>
+
+          <%= link_to admin_users_path,
+              class: "flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-green-100 text-gray-700 hover:text-green-700 transition" do %>
+            <i data-lucide="users" class="w-5 h-5"></i>
+            Users
+          <% end %>
+
+          <%= link_to admin_ebooks_path,
+              class: "flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-green-100 text-gray-700 hover:text-green-700 transition" do %>
+            <i data-lucide="book" class="w-5 h-5"></i>
+            Ebooks
+          <% end %>
+
+          <%= link_to admin_orders_path,
+              class: "flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-green-100 text-gray-700 hover:text-green-700 transition" do %>
+            <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+            Orders
+          <% end %>
+
+          <%= link_to admin_ebook_metrics_path,
+              class: "flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-green-100 text-gray-700 hover:text-green-700 transition" do %>
+            <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+            Ebook Metrics
+          <% end %>
+
+        </nav>
+
+      </aside>
+      <main class="flex-1 p-10">
+        <%= yield %>
+      </main>
+
+    </div>
+  </body>
+</html>
+<script>
+    lucide.createIcons();
+</script>

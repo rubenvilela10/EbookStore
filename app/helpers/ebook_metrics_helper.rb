@@ -1,0 +1,2 @@
+module EbookMetricsHelper
+end

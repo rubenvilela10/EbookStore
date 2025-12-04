@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  buyer: one
+  ebook: one
+  price: 1.5
+  fee: 1.5
+  destination_address: MyString
+  billing_address: MyString
+  status: MyString
+
+two:
+  buyer: two
+  ebook: two
+  price: 1.5
+  fee: 1.5
+  destination_address: MyString
+  billing_address: MyString
+  status: MyString

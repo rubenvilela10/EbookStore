@@ -1,0 +1,23 @@
+<h1>Order <%= @order.id %></h1>
+
+<p><strong>Buyer:</strong> <%= @order.buyer.name %></p>
+
+<p><strong>Destination Address:</strong> <%= @order.destination_address %></p>
+<p><strong>Billing Address:</strong> <%= @order.billing_address %></p>
+
+<h3>Ebooks in this order:</h3>
+<ul>
+  <% @order.ebooks.each do |ebook| %>
+    <li><%= ebook.title %> - <%= number_to_currency(ebook.price) %></li>
+  <% end %>
+</ul>
+
+<p><strong>Total Price:</strong> <%= number_to_currency(@order.price) %></p>
+<p><strong>Fee (10%):</strong> <%= number_to_currency(@order.fee) %></p>
+
+<p><strong>Status:</strong> <%= @order.payment_status %></p>
+
+<br>
+
+<%= link_to "Edit", edit_admin_order_path(@order) %> |
+<%= link_to "Back", admin_orders_path %>
