@@ -13,14 +13,6 @@ class Order < ApplicationRecord
   validates :destination_address, presence: true
   validates :billing_address, presence: true
 
-  def total_price
-    order_items.sum(:price)
-  end
-
-  def total_fee
-    order_items.sum(:fee)
-  end
-
   def purchased_at
     created_at.to_date
   end

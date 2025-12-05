@@ -1,17 +1,13 @@
-<div class="order-item-fields">
-  <%= f.label :ebook_id, "Ebook" %>
-  <%= f.collection_select :ebook_id, Ebook.all, :id, :title %>
+<div>
+  <div class="form-field">
+    <%= f.label :ebook_id, "Ebook", class: "form-label" %>
+    <%= f.collection_select :ebook_id, @ebooks, :id, :title, {}, class: "form-input" %>
+  </div>
 
-  <%= link_to "Remove", "#", class: "remove-order-item", data: { action: "remove-item" } %>
-
-  <hr>
+  <div class="flex justify-end">
+    <%= link_to "Remove",
+        "#",
+        class: "text-red-600 text-sm font-medium hover:text-red-700 hover:underline",
+        data: { action: "remove-item" } %>
+  </div>
 </div>
-
-<script>
-    document.addEventListener("click", function(event) {
-    if (event.target.matches("[data-action='remove-item']")) {
-        event.preventDefault();
-        event.target.closest(".order-item-fields").remove();
-    }
-    });
-</script>

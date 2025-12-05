@@ -42,7 +42,6 @@ class Admin::EbooksController < Admin::AdminController
     end
   end
 
-  # DELETE /ebooks/1 or /ebooks/1.json
   def destroy
     @ebook.destroy!
 

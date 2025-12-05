@@ -1,23 +1,91 @@
-<h1>Order <%= @order.id %></h1>
+<% content_for :title, "Order Details" %>
 
-<p><strong>Buyer:</strong> <%= @order.buyer.name %></p>
+<p class="text-green-600 mb-4"><%= notice %></p>
 
-<p><strong>Destination Address:</strong> <%= @order.destination_address %></p>
-<p><strong>Billing Address:</strong> <%= @order.billing_address %></p>
+<div class="bg-white shadow-lg rounded-xl p-8 border border-gray-200">
 
-<h3>Ebooks in this order:</h3>
-<ul>
-  <% @order.ebooks.each do |ebook| %>
-    <li><%= ebook.title %> - <%= number_to_currency(ebook.price) %></li>
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
+      <i data-lucide="book" class="w-7 h-7 text-green-600"></i>
+      Order Details
+    </h1>
+
+    <%= link_to edit_admin_order_path(@order),
+        class: "inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition" do %>
+      <i data-lucide="pencil" class="w-4 h-4"></i>
+      Edit
+    <% end %>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Id</h2>
+      <p class="text-gray-900 font-medium"><%= @order.id %></p>
+    </div>
+
+    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Buyer</h2>
+      <p class="text-gray-900 font-medium"><%= @order.buyer.name %></p>
+    </div>
+
+    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Payment Status</h2>
+      <span class="px-2 py-1 rounded bg-indigo-100 text-indigo-700 text-xs font-medium">
+        <%= @order.payment_status %>
+      </span>
+    </div>
+
+    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Destination Address</h2>
+        <span class="px-2 py-1 rounded bg-gray-100 text-green-700 text-xs font-medium">
+          <%= @order.destination_address%>
+        </span>
+    </div>
+
+    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Billing Address</h2>
+      <p class="text-gray-900 font-medium">
+        <%= @order.billing_address %>
+      </p>
+    </div>
+
+    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Placed On</h2>
+      <p class="text-gray-900 font-medium"><%= @order.created_at.strftime("%d %m %Y") %></p>
+    </div>
+
+  </div>
+  <% @order.order_items.each do |order| %>
+    <table class="min-w-full text-left text-sm text-gray-600 mt-10">
+      <thead class="bg-gray-100 text-gray-700 uppercase text-xs border-b">
+        <tr>
+          <th class="px-6 py-3">Ebook</th>
+          <th class="px-6 py-3">Price</th>
+          <th class="px-6 py-3">Seller</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-b hover:bg-gray-50 transition">
+          <td class="px-6 py-3 font-medium text-gray-900"><%= order.ebook.title %></td>
+          <td class="px-6 py-3 font-medium text-gray-900"><%= order.price %></td>
+          <td class="px-6 py-3 font-medium text-gray-900"><%= order.ebook.seller.name %></td>
+        </tr>
+      </tbody>
+    </table>
   <% end %>
-</ul>
+</div>
 
-<p><strong>Total Price:</strong> <%= number_to_currency(@order.price) %></p>
-<p><strong>Fee (10%):</strong> <%= number_to_currency(@order.fee) %></p>
-
-<p><strong>Status:</strong> <%= @order.payment_status %></p>
-
-<br>
-
-<%= link_to "Edit", edit_admin_order_path(@order) %> |
-<%= link_to "Back", admin_orders_path %>
+<div class="flex items-center justify-between mt-8">
+  <%= link_to admin_orders_path,
+      class: "inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition" do %>
+    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+    Back to orders
+  <% end %>
+  <%= link_to admin_order_path(@order),
+        data: { turbo_method: "delete", turbo_confirm: "Are you sure?" },
+        class: "inline-flex items-center gap-1 text-red-600 hover:text-red-800 transition" do %>
+    <i data-lucide="trash-2" class="w-5 h-5"></i>
+    Delete order
+  <% end %>
+</div>

@@ -14,31 +14,64 @@ class Admin::OrdersController < Admin::AdminController
   def new
     @order = Order.new
     @order.order_items.build
+    @buyers = User.buyer.order(:name)
+    @ebooks = Ebook.where(status: "live")
   end
 
   def edit
+    @buyers = User.buyer.order(:name)
+    @ebooks = Ebook.where(status: "live")
   end
 
   def create
-    @order = Order.new(order_params)
-    calculate_price_and_fee(@order)
+    @order = Order.new(order_params.except(:order_items_attributes))
+    @buyers = User.buyer.order(:name)
+    @ebooks = Ebook.where(status: "live")
 
-    if @order.save
+    ebook_ids = Array(order_params.dig(:order_items_attributes)&.values).map { |h| h["ebook_id"].to_i }.compact
+
+    ebooks = Ebook.where(id: ebook_ids).index_by(&:id)
+
+    total_price = ebook_ids.sum { |id| ebooks[id]&.price.to_f }
+    total_fee   = ebook_ids.sum { |id| (ebooks[id]&.price.to_f * 0.10) }
+
+    ActiveRecord::Base.transaction do
+      @order.total_price = total_price
+      @order.total_fee   = total_fee
+
+      @order.save!
+
+      ebook_ids.each do |ebook_id|
+        ebook = ebooks[ebook_id]
+        raise ActiveRecord::RecordNotFound, "Ebook #{ebook_id} not found" unless ebook
+
+        @order.order_items.create!(
+          ebook_id: ebook.id,
+          price:    ebook.price,
+          fee:      (ebook.price.to_f * 0.10)
+        )
+      end
+
       register_purchase_metrics(@order)
       send_notifications(@order)
-
-      redirect_to @order, notice: "Order successfully created."
-    else
-      render :new, status: :unprocessable_entity
     end
+
+    redirect_to admin_order_path(@order), notice: "Order successfully created."
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound => e
+    @buyers = User.buyer.order(:name)
+    @ebooks = Ebook.where(status: "live")
+    flash.now[:alert] = e.message
+    render :new, status: :unprocessable_entity
   end
 
   def update
+    @buyers = User.buyer.order(:name)
+    @ebooks = Ebook.where(status: "live")
     if @order.update(order_params)
       calculate_price_and_fee(@order)
       @order.save
 
-      redirect_to @order, notice: "Order successfully updated."
+      redirect_to admin_order_path(@order), notice: "Order successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -46,7 +79,7 @@ class Admin::OrdersController < Admin::AdminController
 
   def destroy
     @order.destroy
-    redirect_to orders_path, notice: "Order successfully destroyed."
+    redirect_to admin_orders_path, notice: "Order successfully destroyed."
   end
 
   private
@@ -57,7 +90,7 @@ class Admin::OrdersController < Admin::AdminController
       :destination_address,
       :billing_address,
       :payment_status,
-      order_items_attributes: [:ebook_id, :_destroy]
+      order_items_attributes: [ :ebook_id, :_destroy ]
     )
   end
 
@@ -66,16 +99,23 @@ class Admin::OrdersController < Admin::AdminController
   end
 
   def calculate_price_and_fee(order)
-    total = order.order_items.map { |item| item.ebook.price }.sum
-    order.price = total
-    order.fee = total * 0.10
+    order.total_price = order.order_items.sum(&:price)
+    order.total_fee   = order.order_items.sum(&:fee)
   end
 
   def register_purchase_metrics(order)
     order.order_items.each do |item|
-      metric = EbookMetric.find_or_initialize_by(ebook_id: item.ebook_id)
-      metric.purchases_count += 1
-      metric.save
+      # log event
+      EbookMetric.create!(
+        ebook_id: item.ebook_id,
+        event_type: "purchase",
+        ip: request.remote_ip,
+        user_agent: request.user_agent,
+        extra_data: { order_id: order.id }.to_json
+      )
+
+      stat = EbookStat.find_or_create_by!(ebook_id: item.ebook_id)
+      stat.increment!(:purchases_count)
     end
   end
 

@@ -1,39 +1,41 @@
-<%= form_with(model: order) do |form| %>
+<%= form_with(model: [:admin, order], class: "form-card") do |form| %>
   <% if order.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(order.errors.count, "error") %> prohibited this order from being saved:</h2>
-
+    <div class="form-errors">
+      <h2>
+        <%= pluralize(order.errors.count, "error") %> prevented this order from being saved:
+      </h2>
       <ul>
-        <% order.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
+        <% order.errors.each do |error| %>
+          <li><%= error.full_message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :buyer_id, "Buyer" %>
-    <%= form.collection_select :buyer_id, User.where(role: "buyer"), :id, :name %>
+  <div class="form-field">
+    <%= form.label :buyer_id, class: "form-label" %>
+    <%= form.collection_select :buyer_id,
+          @buyers,
+          :id,
+          :name,
+          {},
+          class: "form-input" %>
   </div>
 
-  <div>
-    <%= form.label :destination_address %>
-    <%= form.text_field :destination_address %>
+  <div class="form-field">
+    <%= form.label :destination_address, class: "form-label" %>
+    <%= form.text_field :destination_address, class: "form-input" %>
   </div>
 
-  <div>
-    <%= form.label :billing_address %>
-    <%= form.text_field :billing_address %>
+  <div class="form-field">
+    <%= form.label :billing_address, class: "form-label" %>
+    <%= form.text_field :billing_address, class: "form-input" %>
   </div>
 
-  <div>
-    <%= form.label :payment_status %>
-    <%= form.select :payment_status, Order::STATUSES %>
+  <div class="form-field">
+    <%= form.label :payment_status, class: "form-label" %>
+    <%= form.select :payment_status, Order::STATUSES, {}, class: "form-input" %>
   </div>
-
-  <hr>
-
-  <h3>Ebooks</h3>
 
   <div id="order-items">
     <%= form.fields_for :order_items do |item_form| %>
@@ -43,39 +45,56 @@
 
   <template id="order-item-template">
     <div class="order-item-fields">
-      <label>Ebook</label>
-      <select name="order[order_items_attributes][][ebook_id]">
-        <% Ebook.all.each do |ebook| %>
-          <option value="<%= ebook.id %>"><%= ebook.title %></option>
-        <% end %>
-      </select>
 
-      <a href="#" data-action="remove-item">Remove</a>
-      <hr>
+      <div class="form-field">
+        <label class="form-label">Ebook</label>
+        <select name="order[order_items_attributes][][ebook_id]"
+                class="form-input">
+          <% @ebooks.each do |ebook| %>
+            <option value="<%= ebook.id %>"><%= ebook.title %></option>
+          <% end %>
+        </select>
+      </div>
+
+      <div class="flex justify-end">
+        <a href="#"
+          data-action="remove-item"
+          class="text-red-600 text-sm font-medium hover:text-red-700 hover:underline">
+          Remove
+        </a>
+      </div>
+
     </div>
   </template>
 
-  <%= link_to "Add Ebook", "#", id: "add-order-item" %>
+  <div class="flex justify-end">
+    <%= link_to "Add Ebook", "#", id: "add-order-item", class:"text-sm text-green-600" %>
+  </div>
 
-  <hr>
-
-  <%= form.submit %>
+  <div class="mt-10">
+    <%= form.submit "Save order", class: "form-submit" %>
+  </div>
 <% end %>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const addButton = document.getElementById("add-order-item");
-  const itemsContainer = document.getElementById("order-items");
+  document.addEventListener("DOMContentLoaded", () => {
+    const addButton = document.getElementById("add-order-item");
+    const itemsContainer = document.getElementById("order-items");
 
-  addButton.addEventListener("click", event => {
-    event.preventDefault();
+    addButton.addEventListener("click", event => {
+      event.preventDefault();
 
-    // pega o template hidden
-    const template = document.getElementById("order-item-template");
-    const clone = template.content.cloneNode(true);
+      const template = document.getElementById("order-item-template");
+      const clone = template.content.cloneNode(true);
 
-    // adiciona ao container
-    itemsContainer.appendChild(clone);
+      itemsContainer.appendChild(clone);
+    });
   });
-});
+
+  document.addEventListener("click", function(event) {
+    if (event.target.matches("[data-action='remove-item']")) {
+      event.preventDefault();
+      event.target.closest(".order-item-fields").remove();
+    }
+  });
 </script>
