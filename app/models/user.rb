@@ -7,4 +7,8 @@ class User < ApplicationRecord
     has_many :order_items, through: :orders
 
     validates :name, presence: true
+
+    scope :admin, -> { where(role: "admin") }
+    scope :seller, -> { where(role: "seller") }
+    scope :buyer, -> { where(role: "buyer") }
 end

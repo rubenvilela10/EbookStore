@@ -1,8 +1,10 @@
-<%= form_with(model: ebook) do |form| %>
-  <% if ebook.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(ebook.errors.count, "error") %> prohibited this ebook from being saved:</h2>
+<%= form_with(model: [:admin, ebook], class: "form-card") do |form| %>
 
+  <% if ebook.errors.any? %>
+    <div class="form-errors">
+      <h2>
+        <%= pluralize(ebook.errors.count, "error") %> prevented this ebook from being saved:
+      </h2>
       <ul>
         <% ebook.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -11,7 +13,51 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.submit %>
+  <div class="form-field">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-input" %>
   </div>
+
+  <div class="form-field">
+    <%= form.label :description, class: "form-label" %>
+    <%= form.text_field :description, class: "form-input" %>
+  </div>
+
+  <div class="form-field">
+    <%= form.label :price, class: "form-label" %>
+    <%= form.number_field :price, :step => "0.01", class: "form-input" %>
+  </div>
+
+  <div class="form-field">
+    <%= form.label :status, class: "form-label" %>
+    <%= form.select :status,
+        [["Live", "live"], ["Pending", "pending"], ["Draft", "draft"], ["Disabled", "disabled"]],
+        {},
+        class: "form-input" %>
+  </div>
+
+  <div class="form-field">
+    <%= form.label :seller_id, class: "form-label" %>
+    <%= form.collection_select :seller_id,
+          @sellers,
+          :id,
+          :name,
+          {},
+          class: "form-input" %>
+  </div>
+
+  <div class="form-field">
+    <%= form.label :author, class: "form-label" %>
+    <%= form.text_field :author, class: "form-input" %>
+  </div>
+
+  <div class="form-field">
+    <%= form.label "Date", class: "form-label" %>
+    <%= form.date_field :year, class: "form-input" %>
+  </div>
+
+  <div>
+    <%= form.submit "Save ebook", class: "form-submit" %>
+  </div>
+
 <% end %>

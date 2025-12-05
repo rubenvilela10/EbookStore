@@ -7,7 +7,7 @@ class CreateEbooks < ActiveRecord::Migration[8.1]
       t.integer :quantity,    null: false, default: 0
       t.string  :status,      null: false, default: "draft"
       t.string  :author,      null: false
-      t.date    :date,        null: false
+      t.date    :year,        null: false
 
       t.timestamps
     end

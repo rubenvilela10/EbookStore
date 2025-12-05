@@ -4,48 +4,40 @@ class Admin::EbooksController < Admin::AdminController
 
   layout "admin"
 
-  # GET /ebooks or /ebooks.json
   def index
     @ebooks = Ebook.all
   end
 
-  # GET /ebooks/1 or /ebooks/1.json
   def show
   end
 
-  # GET /ebooks/new
   def new
     @ebook = Ebook.new
+    @sellers = User.seller.order(:name)
   end
 
-  # GET /ebooks/1/edit
   def edit
+    @sellers = User.seller.order(:name)
   end
 
-  # POST /ebooks or /ebooks.json
   def create
     @ebook = Ebook.new(ebook_params)
 
     respond_to do |format|
       if @ebook.save
-        format.html { redirect_to @ebook, notice: "Ebook was successfully created." }
-        format.json { render :show, status: :created, location: @ebook }
+        redirect_to admin_ebook_path(@ebook), notice: "Ebook was successfully created."
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @ebook.errors, status: :unprocessable_entity }
+        render :new, status: :unprocessable_entity
       end
     end
   end
 
-  # PATCH/PUT /ebooks/1 or /ebooks/1.json
   def update
     respond_to do |format|
       if @ebook.update(ebook_params)
-        format.html { redirect_to @ebook, notice: "Ebook was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @ebook }
+        redirect_to admin_ebook_path(@ebook), notice: "Ebook was successfully updated."
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @ebook.errors, status: :unprocessable_entity }
+        render :edit, status: :unprocessable_entity
       end
     end
   end
@@ -61,13 +53,14 @@ class Admin::EbooksController < Admin::AdminController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_ebook
-      @ebook = Ebook.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def ebook_params
-      params.fetch(:ebook, {})
-    end
+  def set_ebook
+    @ebook = Ebook.find(params[:id])
+  end
+
+  def ebook_params
+    params.require(:ebook).permit(
+      :title, :description, :price, :status, :author, :year, :seller_id
+    )
+  end
 end

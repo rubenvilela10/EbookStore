@@ -1,45 +1,115 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title, "ebooks" %>
 
-<% content_for :title, "Ebooks" %>
+<div class="flex items-center justify-between mb-8">
+  <h1 class="text-3xl font-bold text-gray-800">Ebooks</h1>
 
-<h1>Ebooks</h1>
+  <%= link_to new_admin_ebook_path,
+        class: "inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition" do %>
+    <i data-lucide="plus" class="w-4 h-4"></i>
+    New ebook
+  <% end %>
+</div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Price</th>
-      <th>Status</th>
-      <th>Author</th>
-      <th>Year</th>
-      <th>Seller</th>
-    </tr>
-  </thead>
+<div class="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-200">
 
-  <tbody>
-    <% if @ebooks.count > 0 %>
-      <% @ebooks.each do |ebook| %>
+  <% if @ebooks.any? %>
+    <table class="min-w-full text-left text-sm text-gray-700">
+      <thead class="bg-gray-50 border-b">
         <tr>
-          <td><%= ebook.title %></td>
-          <td><%= ebook.description %></td>
-          <td><%= number_to_currency(ebook.price) %></td>
-          <td><%= ebook.status.titleize %></td>
-          <td><%= ebook.author.titleize %></td>
-          <td><%= ebook.date.to_fs(:rfc2822) %></td>
-          <td><%= ebook.date.seller.name %></td>
-          <td>
-            <%= link_to "Show", ebook %> |
-            <%= link_to "Edit", edit_ebook_path(ebook) %> |
-            <%= link_to "Delete", ebook, method: :delete, data: { confirm: "Are you sure?" } %>
-          </td>
+          <th class="px-6 py-3 font-semibold text-gray-600">Title</th>
+          <th class="px-6 py-3 font-semibold text-gray-600">Description</th>
+          <th class="px-6 py-3 font-semibold text-gray-600">Author</th>
+          <th class="px-6 py-3 font-semibold text-gray-600">Published At</th>
+          <th class="px-6 py-3 font-semibold text-gray-600 text-right">Seller</th>
+          <th class="px-6 py-3 font-semibold text-gray-600 text-right">Price</th>
+          <th class="px-6 py-3 font-semibold text-gray-600 text-right">Status</th>
         </tr>
-      <% end %>
-    <% else %>
-      <p>There are no ebooks registeres in the system.</p>
-    <% end %>
-  </tbody>
-</table>
+      </thead>
 
-<br>
-<%= link_to "New ebook", new_admin_ebook_path %>
+      <tbody>
+        <% @ebooks.each do |ebook| %>
+          <tr class="border-b hover:bg-gray-50 transition">
+
+            <td class="px-6 py-4 font-medium text-gray-900">
+              <%= ebook.title %>
+            </td>
+
+            <td class="px-6 py-4">
+              <%= ebook.description %>
+            </td>
+            <td class="px-6 py-4">
+              <span class="px-2 py-1 rounded-lg bg-green-100 text-green-700 text-xs font-medium shadow-sm">
+                <%= ebook.author %>
+              </span>
+            </td>
+            <td class="px-6 py-4">
+              <span class="px-2 py-1 rounded-lg bg-green-100 text-green-700 text-xs font-medium shadow-sm">
+                <%= ebook.year.to_fs(:rfc2822) %>
+              </span>
+            </td>
+            <td class="px-6 py-4">
+              <span class="px-2 py-1 rounded-lg bg-green-100 text-green-700 text-xs font-medium shadow-sm">
+                <%= ebook.seller.name %>
+              </span>
+            </td>
+            <td class="px-6 py-4">
+              <span class="px-2 py-1 rounded-lg bg-green-100 text-green-700 text-xs font-medium shadow-sm">
+                <%= number_to_currency(ebook.price) %>
+              </span>
+            </td>
+
+            <td class="px-6 py-4">
+              <% if ebook.status == "live" %>
+                <span class="px-2 py-1 rounded-lg bg-emerald-100 text-emerald-700 text-xs font-medium shadow-sm flex items-center gap-1 w-fit">
+                  <i data-lucide="check-circle" class="w-3 h-3"></i>
+                  Live
+                </span>
+              <% elsif ebook.status == "draft"%>
+                <span class="px-2 py-1 rounded-lg bg-red-100 text-gray-700 text-xs font-medium shadow-sm flex items-center gap-1 w-fit">
+                  <i data-lucide="x-circle" class="w-3 h-3"></i>
+                  Draft
+                </span>
+              <% elsif ebook.status =="pending"%>
+                <span class="px-2 py-1 rounded-lg bg-red-100 text-yellow-700 text-xs font-medium shadow-sm flex items-center gap-1 w-fit">
+                  <i data-lucide="x-circle" class="w-3 h-3"></i>
+                  Pending
+                </span>
+              <% else %>
+                <span class="px-2 py-1 rounded-lg bg-red-100 text-red-700 text-xs font-medium shadow-sm flex items-center gap-1 w-fit">
+                  <i data-lucide="x-circle" class="w-3 h-3"></i>
+                  Disabled
+                </span>
+              <% end %>
+            </td>
+
+            <td class="px-6 py-4 text-right space-x-4">
+
+              <%= link_to admin_ebook_path(ebook),
+                  class: "inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 transition" do %>
+                <i data-lucide="eye" class="w-4 h-4"></i>
+                Show
+              <% end %>
+
+              <%= link_to edit_admin_ebook_path(ebook),
+                  class: "inline-flex items-center gap-1 text-yellow-600 hover:text-yellow-700 transition" do %>
+                <i data-lucide="pencil" class="w-4 h-4"></i>
+                Edit
+              <% end %>
+
+              <%= link_to admin_ebook_path(ebook),
+                  data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                  class: "inline-flex items-center gap-1 text-red-600 hover:text-red-800 transition" do %>
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                Delete
+              <% end %>
+
+            </td>
+
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="p-10 text-gray-500 text-sm italic">There are no ebooks registered in the system.</p>
+  <% end %>
+</div>

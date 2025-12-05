@@ -4,25 +4,20 @@ class Admin::EbookMetricsController < Admin::AdminController
 
   layout "admin"
 
-  # GET /ebook_metrics or /ebook_metrics.json
   def index
     @ebook_metrics = EbookMetric.all
   end
 
-  # GET /ebook_metrics/1 or /ebook_metrics/1.json
   def show
   end
 
-  # GET /ebook_metrics/new
   def new
     @ebook_metric = EbookMetric.new
   end
 
-  # GET /ebook_metrics/1/edit
   def edit
   end
 
-  # POST /ebook_metrics or /ebook_metrics.json
   def create
     @ebook_metric = EbookMetric.new(ebook_metric_params)
 
@@ -37,7 +32,6 @@ class Admin::EbookMetricsController < Admin::AdminController
     end
   end
 
-  # PATCH/PUT /ebook_metrics/1 or /ebook_metrics/1.json
   def update
     respond_to do |format|
       if @ebook_metric.update(ebook_metric_params)
@@ -50,7 +44,6 @@ class Admin::EbookMetricsController < Admin::AdminController
     end
   end
 
-  # DELETE /ebook_metrics/1 or /ebook_metrics/1.json
   def destroy
     @ebook_metric.destroy!
 
@@ -61,13 +54,14 @@ class Admin::EbookMetricsController < Admin::AdminController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_ebook_metric
-      @ebook_metric = EbookMetric.find(params.expect(:id))
+      @ebook_metric = EbookMetric.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def ebook_metric_params
-      params.fetch(:ebook_metric, {})
+      params.require(:ebook_metric).permite(
+        
+      )
     end
 end
