@@ -45,11 +45,9 @@
 
   <template id="order-item-template">
     <div class="order-item-fields">
-
       <div class="form-field">
         <label class="form-label">Ebook</label>
-        <select name="order[order_items_attributes][][ebook_id]"
-                class="form-input">
+        <select name="order[order_items_attributes][__IDX__][ebook_id]" class="form-input">
           <% @ebooks.each do |ebook| %>
             <option value="<%= ebook.id %>"><%= ebook.title %></option>
           <% end %>
@@ -57,13 +55,8 @@
       </div>
 
       <div class="flex justify-end">
-        <a href="#"
-          data-action="remove-item"
-          class="text-red-600 text-sm font-medium hover:text-red-700 hover:underline">
-          Remove
-        </a>
+        <a href="#" data-action="remove-item" class="text-red-600 text-sm">Remove</a>
       </div>
-
     </div>
   </template>
 
@@ -80,14 +73,15 @@
   document.addEventListener("DOMContentLoaded", () => {
     const addButton = document.getElementById("add-order-item");
     const itemsContainer = document.getElementById("order-items");
+    let index = Date.now();
 
     addButton.addEventListener("click", event => {
       event.preventDefault();
 
-      const template = document.getElementById("order-item-template");
-      const clone = template.content.cloneNode(true);
+      const template = document.getElementById("order-item-template").innerHTML;
+      const newItem = template.replace(/__IDX__/g, index++);
 
-      itemsContainer.appendChild(clone);
+      itemsContainer.insertAdjacentHTML("beforeend", newItem);
     });
   });
 

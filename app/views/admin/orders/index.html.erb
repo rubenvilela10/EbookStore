@@ -74,11 +74,6 @@
                 <i data-lucide="eye" class="w-4 h-4"></i>
                 Show
               <% end %>
-              <%= link_to edit_admin_order_path(order),
-                    class: "inline-flex items-center gap-1 text-yellow-600 hover:text-yellow-800 transition" do %>
-                <i data-lucide="pencil" class="w-4 h-4"></i>
-                Edit
-              <% end %>
               <%= link_to admin_order_path(order),
                     data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
                     class: "inline-flex items-center gap-1 text-red-600 hover:text-red-800 transition" do %>

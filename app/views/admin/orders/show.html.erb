@@ -9,12 +9,6 @@
       <i data-lucide="book" class="w-7 h-7 text-green-600"></i>
       Order Details
     </h1>
-
-    <%= link_to edit_admin_order_path(@order),
-        class: "inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition" do %>
-      <i data-lucide="pencil" class="w-4 h-4"></i>
-      Edit
-    <% end %>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -56,24 +50,24 @@
     </div>
 
   </div>
-  <% @order.order_items.each do |order| %>
-    <table class="min-w-full text-left text-sm text-gray-600 mt-10">
-      <thead class="bg-gray-100 text-gray-700 uppercase text-xs border-b">
-        <tr>
-          <th class="px-6 py-3">Ebook</th>
-          <th class="px-6 py-3">Price</th>
-          <th class="px-6 py-3">Seller</th>
-        </tr>
-      </thead>
-      <tbody>
+  <table class="min-w-full text-left text-sm text-gray-600 mt-10">
+    <thead class="bg-gray-100 text-gray-700 uppercase text-xs border-b">
+      <tr>
+        <th class="px-6 py-3">Ebook</th>
+        <th class="px-6 py-3">Price</th>
+        <th class="px-6 py-3">Seller</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @order.order_items.each do |order| %>
         <tr class="border-b hover:bg-gray-50 transition">
-          <td class="px-6 py-3 font-medium text-gray-900"><%= order.ebook.title %></td>
-          <td class="px-6 py-3 font-medium text-gray-900"><%= order.price %></td>
-          <td class="px-6 py-3 font-medium text-gray-900"><%= order.ebook.seller.name %></td>
+            <td class="px-6 py-3 font-medium text-gray-900"><%= order.ebook.title %></td>
+            <td class="px-6 py-3 font-medium text-gray-900"><%= order.price %></td>
+            <td class="px-6 py-3 font-medium text-gray-900"><%= order.ebook.seller.name %></td>
         </tr>
-      </tbody>
-    </table>
-  <% end %>
+      <% end %>
+    </tbody>
+  </table>
 </div>
 
 <div class="flex items-center justify-between mt-8">
