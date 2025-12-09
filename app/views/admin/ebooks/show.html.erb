@@ -63,6 +63,9 @@
   </div>
 </div>
 
+<%= render partial: "metrics", locals: { ebook: @ebook } %>
+<%= render partial: "stats", locals: { ebook: @ebook } %>
+
 <div class="flex items-center justify-between mt-8">
 
   <%= link_to admin_ebooks_path,

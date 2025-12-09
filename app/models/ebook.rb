@@ -4,9 +4,10 @@ class Ebook < ApplicationRecord
     has_many :order_items, dependent: :destroy
     has_many :orders, through: :order_items
     has_many :ebook_metrics, dependent: :destroy
+    has_one :ebook_stat, dependent: :destroy
 
     has_one_attached :pdf_draft
-    
+
     STATUSES = %w[draft pending live disabled].freeze
 
     validates :title, presence: true
@@ -33,4 +34,4 @@ class Ebook < ApplicationRecord
     def total_revenue
         order_items.sum(:price)
     end
-  end
+end

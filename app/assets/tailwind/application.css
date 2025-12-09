@@ -70,3 +70,119 @@
     padding-left: var(--spacing-5);
     font-size: var(--text-sm);
 }
+
+#analytics {
+    margin-top: 40px;
+}
+
+#analytics h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #1f2937; /* gray-800 */
+}
+
+.kpi-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.kpi {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow:
+        0 2px 6px rgba(0,0,0,0.07),
+        0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid #f1f5f9; /* light border */
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.kpi:hover {
+    transform: translateY(-3px);
+    border-color: #a5d6a7;
+  
+    box-shadow:
+      0 6px 14px rgba(76, 175, 80, 0.18),
+      0 12px 26px rgba(76, 175, 80, 0.12);
+}
+
+.kpi h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151; /* gray-700 */
+    margin-bottom: 8px;
+    letter-spacing: 0.2px;
+}
+
+.kpi p {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #111827; /* gray-900 */
+    margin: 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.5rem 0 2rem 0;
+    font-size: 0.95rem;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden; /* arredondar a tabela */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+thead {
+    background: #f8fafc;
+}
+
+thead th {
+    padding: 12px 16px;
+    font-weight: 600;
+    color: #334155;
+    text-align: left;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+tbody tr {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+tbody tr:nth-child(even) {
+    background: #f9fafb;
+}
+
+tbody tr:hover {
+    background: #eef2ff;
+    transition: background 0.2s ease;
+}
+
+td {
+    padding: 12px 16px;
+    color: #475569;
+}
+
+td:last-child,
+th:last-child {
+    text-align: right;
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    border-radius: 6px;
+    background: #e2e8f0;
+    color: #475569;
+}
+
+h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 2rem 0 1.2rem;
+    border-bottom: 3px solid var(--color-green-600);
+    display: inline-block;
+}
