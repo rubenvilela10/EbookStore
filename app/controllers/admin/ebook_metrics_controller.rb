@@ -60,8 +60,7 @@ class Admin::EbookMetricsController < Admin::AdminController
 
     # Only allow a list of trusted parameters through.
     def ebook_metric_params
-      params.require(:ebook_metric).permite(
-        
+      params.require(:ebook_metric).permit(
       )
     end
 end
