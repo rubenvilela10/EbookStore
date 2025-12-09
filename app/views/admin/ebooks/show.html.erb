@@ -3,70 +3,64 @@
 <p class="text-green-600 mb-4"><%= notice %></p>
 
 <div class="bg-white shadow-lg rounded-xl p-8 border border-gray-200">
-
-  <div class="flex items-center justify-between mb-6">
-    <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
-      <i data-lucide="book" class="w-7 h-7 text-green-600"></i>
-      Ebook Details
-    </h1>
-
-    <%= link_to edit_admin_ebook_path(@ebook),
-        class: "inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition" do %>
-      <i data-lucide="pencil" class="w-4 h-4"></i>
-      Edit
+  <div class="flex items-center gap-6 mb-8 pb-6 border-b">
+    <% if @ebook.cover.attached? %>
+      <%= image_tag @ebook.cover,
+        class: "w-32 h-40 rounded-lg object-cover border shadow" %>
+    <% else %>
+      <div class="w-32 h-40 rounded-lg bg-gray-200 flex items-center justify-center text-gray-400 text-5xl border shadow">
+        <i data-lucide="book"></i>
+      </div>
     <% end %>
+
+    <div class="flex flex-col gap-1">
+      <h1 class="text-3xl font-bold text-gray-800"><%= @ebook.title %></h1>
+      <p class="text-gray-600 text-lg">by <%= @ebook.author %></p>
+
+      <div class="flex items-center gap-3 mt-2">
+        <span class="px-2 py-1 rounded bg-indigo-100 text-indigo-700 text-xs font-medium">
+          <%= number_to_currency(@ebook.price) %>
+        </span>
+
+        <span class="px-2 py-1 rounded bg-green-100 text-green-700 text-xs font-medium">
+          <%= @ebook.status %>
+        </span>
+      </div>
+      <p class="text-gray-500 mt-1 text-sm">Seller: <%= @ebook.seller.name %></p>
+    </div>
+
+    <div class="flex-1 flex justify-end">
+      <%= link_to edit_admin_ebook_path(@ebook),
+          class: "inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition" do %>
+        <i data-lucide="pencil" class="w-4 h-4"></i>
+        Edit
+      <% end %>
+    </div>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Title</h2>
-      <p class="text-gray-900 font-medium"><%= @ebook.title %></p>
+    <div class="info-block">
+      <h2 class="label">Description</h2>
+      <p class="value"><%= @ebook.description %></p>
     </div>
 
-    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Description</h2>
-      <p class="text-gray-900 font-medium"><%= @ebook.description %></p>
+    <div class="info-block">
+      <h2 class="label">Published At</h2>
+      <p class="value"><%= @ebook.year.to_fs(:rfc2822) %></p>
     </div>
 
-    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Author</h2>
-      <p class="text-gray-900 font-medium"><%= @ebook.author%></p>
-    </div>
-
-    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Price</h2>
-      <span class="px-2 py-1 rounded bg-indigo-100 text-indigo-700 text-xs font-medium">
-        <%= number_to_currency(@ebook.price) %>
-      </span>
-    </div>
-
-    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Status</h2>
-        <span class="px-2 py-1 rounded bg-gray-100 text-green-700 text-xs font-medium">
-          <%= @ebook.status%>
-        </span>
-    </div>
-
-    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Published At</h2>
-      <p class="text-gray-900 font-medium">
-        <%= @ebook.year.to_fs(:rfc2822) %>
-      </p>
-    </div>
-
-    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Seller</h2>
-      <p class="text-gray-900 font-medium"><%= @ebook.seller.name %></p>
+    <div class="info-block">
+      <h2 class="label">Status</h2>
+      <p class="value"><%= @ebook.status %></p>
     </div>
 
     <% if @ebook.pdf_draft.attached? %>
-      <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-        <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">PDF</h2>
-        <%= link_to "Preview PDF", url_for(@ebook.pdf_draft), 
+      <div class="info-block">
+        <h2 class="label">PDF</h2>
+        <%= link_to "Preview PDF", url_for(@ebook.pdf_draft),
             class: "text-blue-600 underline font-medium",
-            target: "_blank" 
-        %>
+            target: "_blank" %>
       </div>
     <% end %>
 
@@ -77,18 +71,15 @@
 <%= render partial: "stats", locals: { ebook: @ebook } %>
 
 <div class="flex items-center justify-between mt-8">
-
   <%= link_to admin_ebooks_path,
       class: "inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition" do %>
     <i data-lucide="arrow-left" class="w-4 h-4"></i>
     Back to ebooks
   <% end %>
-
   <%= link_to admin_ebook_path(@ebook),
         data: { turbo_method: "delete", turbo_confirm: "Are you sure?" },
         class: "inline-flex items-center gap-1 text-red-600 hover:text-red-800 transition" do %>
     <i data-lucide="trash-2" class="w-5 h-5"></i>
     Delete ebook
   <% end %>
-
 </div>

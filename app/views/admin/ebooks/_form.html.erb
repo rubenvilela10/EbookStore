@@ -57,6 +57,11 @@
   </div>
 
   <div class="form-field">
+    <%= form.label "Cover", class: "form-label" %>
+    <%= form.file_field :cover, class: "form-input" %>
+  </div>
+
+  <div class="form-field">
     <%= form.label "PDF", class: "form-label" %>
     <%= form.file_field :pdf_draft, class: "form-input" %>
   </div>

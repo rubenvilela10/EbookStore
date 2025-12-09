@@ -7,6 +7,7 @@ class Ebook < ApplicationRecord
     has_one :ebook_stat, dependent: :destroy
 
     has_one_attached :pdf_draft
+    has_one_attached :cover
 
     STATUSES = %w[draft pending live disabled].freeze
 
