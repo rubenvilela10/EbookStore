@@ -1,0 +1,19 @@
+Your Purchase is Confirmed!
+
+Hello <%= @buyer.name %>,
+
+Thank you for your purchase! Your order has been successfully completed.
+
+Order Details:
+- Order ID: <%= @order.id %>
+- Total Paid: €<%= "%.2f" % @order.total_price %>
+- Date: <%= @order.created_at.strftime("%B %d, %Y %H:%M") %>
+
+Ebooks Purchased:
+<% @order.order_items.each do |item| %>
+- <%= item.ebook.title %> — €<%= "%.2f" % item.price %>
+<% end %>
+
+You can access your ebooks anytime in your account.
+
+Thank you for choosing our platform!

@@ -1,0 +1,13 @@
+New Ebook Sale!
+
+Hello <%= @seller.name %>,
+
+You have sold a copy of your ebook: "<%= @ebook.title %>".
+
+Order Details:
+- Price: €<%= "%.2f" % @order_item.price %>
+- Platform Fee: €<%= "%.2f" % @order_item.fee %>
+- You Will Receive: €<%= "%.2f" % (@order_item.price - @order_item.fee) %>
+- Date: <%= @order.created_at.strftime("%B %d, %Y %H:%M") %>
+
+Thank you for using our platform!

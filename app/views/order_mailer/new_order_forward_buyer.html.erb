@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+  <h1>Your Purchase is Confirmed!</h1>
+
+  <p>
+    Hello <%= @buyer.name %>,<br/><br/>
+    Thank you for your purchase! Your order has been successfully completed.
+  </p>
+
+  <h2>Order Details</h2>
+  <p>
+    <strong>Order ID:</strong> <%= @order.id %><br/>
+    <strong>Total Paid:</strong> €<%= "%.2f" % @order.total_price %><br/>
+    <strong>Date:</strong> <%= @order.created_at.strftime("%B %d, %Y %H:%M") %>
+  </p>
+
+  <h2>Ebooks Purchased</h2>
+  <ul>
+    <% @order.order_items.each do |item| %>
+      <li>
+        <strong><%= item.ebook.title %></strong><br/>
+        Price: €<%= "%.2f" % item.price %>
+      </li>
+    <% end %>
+  </ul>
+
+  <p>
+    You can access your ebooks anytime in your account.<br/>
+    If you have any questions, feel free to contact us.
+  </p>
+
+  <p>Thank you for choosing our platform!</p>
+</body>
+</html>

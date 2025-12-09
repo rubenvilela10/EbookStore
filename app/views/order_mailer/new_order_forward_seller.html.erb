@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>New Ebook Sale!</h1>
+
+    <p>
+      Hello <%= @seller.name %>,<br/><br/>
+      You have just sold a copy of your ebook: <strong><%= @ebook.title %></strong>.
+    </p>
+
+    <p>
+      <strong>Order Details:</strong><br/>
+      Price: €<%= "%.2f" % @order_item.price %><br/>
+      Platform Fee: €<%= "%.2f" % @order_item.fee %><br/>
+      You Will Receive: €<%= "%.2f" % (@order_item.price - @order_item.fee) %><br/>
+      Date: <%= @order.created_at.strftime("%B %d, %Y %H:%M") %><br/>
+    </p>
+
+    <p>
+      Thank you for using our platform!
+    </p>
+  </body>
+</html>

@@ -120,7 +120,10 @@ class Admin::OrdersController < Admin::AdminController
   end
 
   def send_notifications(order)
-    Rails.logger.info "Sending purchase email to buyer #{order.buyer.email}"
-    Rails.logger.info "Sending statistics email to seller"
+    OrderMailer.new_order_forward_buyer(order).deliver_later
+
+    order.order_items.includes(:ebook).each do |item|
+      OrderMailer.new_order_forward_seller(item).deliver_later
+    end
   end
 end
