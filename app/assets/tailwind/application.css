@@ -82,6 +82,15 @@
     color: #1f2937; /* gray-800 */
 }
 
+#analytics h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 2rem 0 1.2rem;
+    border-bottom: 3px solid var(--color-green-600);
+    display: inline-block;
+}
+
 .kpi-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -176,13 +185,4 @@ th:last-child {
     border-radius: 6px;
     background: #e2e8f0;
     color: #475569;
-}
-
-h2 {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: #111827;
-    margin: 2rem 0 1.2rem;
-    border-bottom: 3px solid var(--color-green-600);
-    display: inline-block;
 }
