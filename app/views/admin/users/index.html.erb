@@ -20,6 +20,7 @@
           <th class="px-6 py-3 font-semibold text-gray-600">Email</th>
           <th class="px-6 py-3 font-semibold text-gray-600">Role</th>
           <th class="px-6 py-3 font-semibold text-gray-600">Status</th>
+          <th class="px-6 py-3 font-semibold text-gray-600">Balance</th>
           <th class="px-6 py-3 font-semibold text-gray-600 text-right">Actions</th>
         </tr>
       </thead>
@@ -54,6 +55,12 @@
                   Disabled
                 </span>
               <% end %>
+            </td>
+
+            <td class="px-6 py-4">
+              <span class="px-2 py-1 rounded-lg text-xs font-medium">
+                <%= number_to_currency(user.balance) %>
+              </span>
             </td>
 
             <td class="px-6 py-4 text-right space-x-4">

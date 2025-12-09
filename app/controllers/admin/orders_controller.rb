@@ -28,40 +28,21 @@ class Admin::OrdersController < Admin::AdminController
     @buyers = User.buyer.order(:name)
     @ebooks = Ebook.where(status: "live")
 
-    ebook_ids = Array(order_params.dig(:order_items_attributes)&.values).map { |h| h["ebook_id"].to_i }.compact
+    ebook_ids = Array(order_params.dig(:order_items_attributes)&.values)
+                   .map { |h| h["ebook_id"].to_i }
+                   .compact
 
-    ebooks = Ebook.where(id: ebook_ids).index_by(&:id)
-
-    total_price = ebook_ids.sum { |id| ebooks[id]&.price.to_f }
-    total_fee   = ebook_ids.sum { |id| (ebooks[id]&.price.to_f * 0.10) }
-
-    ActiveRecord::Base.transaction do
-      @order.total_price = total_price
-      @order.total_fee   = total_fee
-
-      @order.save!
-
-      ebook_ids.each do |ebook_id|
-        ebook = ebooks[ebook_id]
-        raise ActiveRecord::RecordNotFound, "Ebook #{ebook_id} not found" unless ebook
-
-        @order.order_items.create!(
-          ebook_id: ebook.id,
-          price:    ebook.price,
-          fee:      (ebook.price.to_f * 0.10)
-        )
-      end
-
-      register_purchase_metrics(@order)
+    begin
+      Admin::OrderService.new(@order).new_order_transaction!(ebook_ids)
       send_notifications(@order)
+      redirect_to admin_order_path(@order), notice: "Order successfully created."
+    rescue StandardError => e
+      @buyers = User.buyer.order(:name)
+      @ebooks = Ebook.where(status: "live")
+      Rails.logger.error "ORDER CREATION ERROR: #{e.class} - #{e.message}"
+      flash.now[:alert] = e.message
+      render :new, status: :unprocessable_entity
     end
-
-    redirect_to admin_order_path(@order), notice: "Order successfully created."
-  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound => e
-    @buyers = User.buyer.order(:name)
-    @ebooks = Ebook.where(status: "live")
-    flash.now[:alert] = e.message
-    render :new, status: :unprocessable_entity
   end
 
   def update
@@ -96,27 +77,6 @@ class Admin::OrdersController < Admin::AdminController
 
   def set_order
     @order = Order.find(params[:id])
-  end
-
-  def calculate_price_and_fee(order)
-    order.total_price = order.order_items.sum(&:price)
-    order.total_fee   = order.order_items.sum(&:fee)
-  end
-
-  def register_purchase_metrics(order)
-    order.order_items.each do |item|
-      # log event
-      EbookMetric.create!(
-        ebook_id: item.ebook_id,
-        event_type: "purchase",
-        ip: request.remote_ip,
-        user_agent: request.user_agent,
-        extra_data: { order_id: order.id }.to_json
-      )
-
-      stat = EbookStat.find_or_create_by!(ebook_id: item.ebook_id)
-      stat.increment!(:purchases_count)
-    end
   end
 
   def send_notifications(order)

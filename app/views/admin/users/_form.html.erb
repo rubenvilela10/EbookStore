@@ -45,6 +45,11 @@
   </div>
 
   <div class="form-field">
+    <%= form.label :balance, class: "form-label" %>
+    <%= form.number_field :balance, :step => "0.01", class: "form-input" %>
+  </div>
+
+  <div class="form-field">
     <%= form.label :age, class: "form-label" %>
     <%= form.number_field :age, class: "form-input" %>
   </div>

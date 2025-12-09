@@ -1,5 +1,5 @@
 class Order < ApplicationRecord
-  STATUSES = %w[paid cancelled pending].freeze
+  STATUSES = %w[paid cancelled].freeze
 
   belongs_to :buyer, class_name: "User"
 
