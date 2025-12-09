@@ -37,58 +37,19 @@
     <%= form.select :payment_status, Order::STATUSES, {}, class: "form-input" %>
   </div>
 
-  <div id="order-items">
-    <%= form.fields_for :order_items do |item_form| %>
-      <%= render "order_item_fields", f: item_form %>
-    <% end %>
-  </div>
+  <div class="form-field">
+    <%= form.label :ebook_ids, "Ebooks", class: "form-label" %>
 
-  <template id="order-item-template">
-    <div class="order-item-fields">
-      <div class="form-field">
-        <label class="form-label">Ebook</label>
-        <select name="order[order_items_attributes][__IDX__][ebook_id]" class="form-input">
-          <% @ebooks.each do |ebook| %>
-            <option value="<%= ebook.id %>"><%= ebook.title %></option>
-          <% end %>
-        </select>
-      </div>
-
-      <div class="flex justify-end">
-        <a href="#" data-action="remove-item" class="text-red-600 text-sm">Remove</a>
-      </div>
-    </div>
-  </template>
-
-  <div class="flex justify-end">
-    <%= link_to "Add Ebook", "#", id: "add-order-item", class:"text-sm text-green-600" %>
+    <%= form.collection_select :ebook_ids,
+          @ebooks,
+          :id,
+          :title,
+          { multiple: true, include_hidden: false },
+          class: "form-input",
+          data: { controller: "tom-select" } %>
   </div>
 
   <div class="mt-10">
     <%= form.submit "Save order", class: "form-submit" %>
   </div>
 <% end %>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const addButton = document.getElementById("add-order-item");
-    const itemsContainer = document.getElementById("order-items");
-    let index = Date.now();
-
-    addButton.addEventListener("click", event => {
-      event.preventDefault();
-
-      const template = document.getElementById("order-item-template").innerHTML;
-      const newItem = template.replace(/__IDX__/g, index++);
-
-      itemsContainer.insertAdjacentHTML("beforeend", newItem);
-    });
-  });
-
-  document.addEventListener("click", function(event) {
-    if (event.target.matches("[data-action='remove-item']")) {
-      event.preventDefault();
-      event.target.closest(".order-item-fields").remove();
-    }
-  });
-</script>

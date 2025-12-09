@@ -12,10 +12,9 @@ class Admin::OrdersController < Admin::AdminController
   end
 
   def new
+    load_dependencies
     @order = Order.new
     @order.order_items.build
-    @buyers = User.buyer.order(:name)
-    @ebooks = Ebook.where(status: "live")
   end
 
   def edit
@@ -24,22 +23,17 @@ class Admin::OrdersController < Admin::AdminController
   end
 
   def create
-    @order = Order.new(order_params.except(:order_items_attributes))
-    @buyers = User.buyer.order(:name)
-    @ebooks = Ebook.where(status: "live")
-
-    ebook_ids = Array(order_params.dig(:order_items_attributes)&.values)
-                   .map { |h| h["ebook_id"].to_i }
-                   .compact
+    load_dependencies
+    @order = Order.new(order_params.except(:ebook_ids))
+    ebook_ids = Array(order_params[:ebook_ids]).reject(&:blank?).map(&:to_i)
 
     begin
       Admin::OrderService.new(@order).new_order_transaction!(ebook_ids)
       send_notifications(@order)
+
       redirect_to admin_order_path(@order), notice: "Order successfully created."
+
     rescue StandardError => e
-      @buyers = User.buyer.order(:name)
-      @ebooks = Ebook.where(status: "live")
-      Rails.logger.error "ORDER CREATION ERROR: #{e.class} - #{e.message}"
       flash.now[:alert] = e.message
       render :new, status: :unprocessable_entity
     end
@@ -65,13 +59,18 @@ class Admin::OrdersController < Admin::AdminController
 
   private
 
+  def load_dependencies
+    @buyers = User.buyer.order(:name)
+    @ebooks = Ebook.where(status: "live")
+  end
+
   def order_params
     params.require(:order).permit(
       :buyer_id,
       :destination_address,
       :billing_address,
       :payment_status,
-      order_items_attributes: [ :ebook_id, :_destroy ]
+      ebook_ids: []
     )
   end
 
