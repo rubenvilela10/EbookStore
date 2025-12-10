@@ -1,4 +1,4 @@
-#signup {
+#signup, #login {
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -6,7 +6,7 @@
     background: #f3f4f6;
     padding: 2rem;
   
-    .signup-card {
+    .card {
       background: white;
       width: 100%;
       max-width: 420px;
@@ -21,7 +21,7 @@
         margin-bottom: 1.5rem;
       }
   
-      .signup-form {
+      .form {
         .field {
           margin-bottom: 1.2rem;
   

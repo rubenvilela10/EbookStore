@@ -1,8 +1,8 @@
 <div id="signup">
-  <div class="signup-card">
+  <div class="card">
     <h1>Create your account</h1>
 
-    <%= form_with model: @user, url: signup_path, local: true, class: "signup-form" do |f| %>
+    <%= form_with model: @user, url: signup_path, local: true, class: "form" do |f| %>
 
       <div class="field">
         <%= f.label :name %>
