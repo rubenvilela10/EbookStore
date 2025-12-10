@@ -1,0 +1,32 @@
+<h1 class="text-2xl font-bold mb-4"><%= @landing_page.title %></h1>
+
+<%= link_to "Edit", edit_admin_landing_page_path(@landing_page), class: "btn-primary" %>
+
+<hr class="my-6">
+
+<h2 class="text-xl font-semibold mb-4">Sections</h2>
+
+<%= link_to "Add Section",
+    new_admin_landing_page_landing_section_path(@landing_page),
+    class: "btn-primary mb-4 inline-block" %>
+
+<div class="space-y-4">
+  <% @landing_page.landing_sections.order(:position).each do |s| %>
+    <div class="bg-white p-4 rounded shadow">
+      <h3 class="text-lg font-bold"><%= s.title %></h3>
+      <p><%= s.subtitle %></p>
+
+      <div class="mt-2">
+        <%= link_to "Edit",
+          edit_admin_landing_page_landing_section_path(@landing_page, s),
+          class: "text-blue-600" %>
+
+        <%= link_to "Delete",
+          admin_landing_page_landing_section_path(@landing_page, s),
+          method: :delete,
+          data: { confirm: "Apagar secção?" },
+          class: "text-red-600 ml-4" %>
+      </div>
+    </div>
+  <% end %>
+</div>

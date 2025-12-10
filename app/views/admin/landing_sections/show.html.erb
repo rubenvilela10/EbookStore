@@ -1,0 +1,29 @@
+<div class="w-full">
+  <% if @page.banner_image.attached? %>
+    <%= image_tag @page.banner_image, class: "w-full h-96 object-cover" %>
+  <% end %>
+</div>
+
+<div class="text-center my-10">
+  <h1 class="text-4xl font-bold"><%= @page.title %></h1>
+  <p class="text-xl text-gray-600 mt-2"><%= @page.subtitle %></p>
+</div>
+
+<div class="space-y-12 max-w-4xl mx-auto pb-20">
+  <% @sections.each do |s| %>
+    <div class="bg-white p-6 rounded shadow">
+      <% if s.image.attached? %>
+        <%= image_tag s.image, class: "w-full rounded mb-4" %>
+      <% end %>
+
+      <h2 class="text-2xl font-semibold"><%= s.title %></h2>
+      <p class="text-gray-700 mt-2"><%= s.subtitle %></p>
+
+      <p class="text-gray-600 mt-4"><%= s.content %></p>
+
+      <% if s.link.present? %>
+        <%= link_to "Saiba mais →", s.link, class: "text-blue-600 block mt-4" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,25 @@
+<h1 class="text-2xl font-bold mb-6">Landing Pages</h1>
+
+<%= link_to "New", new_admin_landing_page_path, class: "btn-primary mb-4 inline-block" %>
+
+<table class="table-auto w-full bg-white shadow rounded p-4">
+  <thead>
+    <tr class="border-b">
+      <th class="p-3 text-left">Title</th>
+      <th class="p-3">Published</th>
+      <th class="p-3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @landing_pages.each do |page| %>
+      <tr class="border-b">
+        <td class="p-3"><%= page.title %></td>
+        <td class="p-3"><%= page.published? ? "Yes" : "No" %></td>
+        <td class="p-3 text-right">
+          <%= link_to "View", admin_landing_page_path(page), class: "text-blue-600" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

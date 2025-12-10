@@ -1,5 +1,5 @@
 class Admin::UsersController < Admin::AdminController
-    before_action :authenticate_admin
+    before_action :authenticate_admin!
     before_action :set_user, only: [ :show, :edit, :update, :destroy ]
 
     layout "admin"

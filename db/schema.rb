@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_10_092733) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_10_152930) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -74,6 +74,27 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_10_092733) do
     t.index ["seller_id"], name: "index_ebooks_on_seller_id"
   end
 
+  create_table "landing_pages", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.boolean "published", default: false
+    t.string "subtitle"
+    t.string "title"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "landing_sections", force: :cascade do |t|
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.integer "landing_page_id", null: false
+    t.string "link"
+    t.integer "position", default: 0
+    t.string "subtitle"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.index ["landing_page_id"], name: "index_landing_sections_on_landing_page_id"
+  end
+
   create_table "order_items", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "ebook_id", null: false
@@ -117,6 +138,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_10_092733) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ebook_metrics", "ebooks"
   add_foreign_key "ebooks", "users", column: "seller_id"
+  add_foreign_key "landing_sections", "landing_pages"
   add_foreign_key "order_items", "ebooks"
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "users", column: "buyer_id"

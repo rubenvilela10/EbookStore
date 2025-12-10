@@ -23,4 +23,16 @@ class User < ApplicationRecord
     scope :admin,  -> { where(role: "admin") }
     scope :seller, -> { where(role: "seller") }
     scope :buyer,  -> { where(role: "buyer") }
+
+    def admin?
+        role == "admin"
+    end
+
+    def seller?
+        role == "seller"
+    end
+
+    def buyer?
+        role == "buyer"
+    end
 end

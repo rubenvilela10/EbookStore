@@ -1,0 +1,28 @@
+<div class="space-y-4">
+  <div>
+    <%= f.label :title %>
+    <%= f.text_field :title, class: "input" %>
+  </div>
+
+  <div>
+    <%= f.label :subtitle %>
+    <%= f.text_field :subtitle, class: "input" %>
+  </div>
+
+  <div>
+    <%= f.label :description %>
+    <%= f.text_area :description, class: "input" %>
+  </div>
+
+  <div>
+    <%= f.label :published %>
+    <%= f.check_box :published %>
+  </div>
+
+  <div>
+    <%= f.label :banner_image %>
+    <%= f.file_field :banner_image, class: "input" %>
+  </div>
+</div>
+
+<%= f.submit "Guardar", class: "btn-primary mt-4" %>

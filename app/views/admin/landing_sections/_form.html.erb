@@ -1,0 +1,33 @@
+<div class="space-y-4">
+  <div>
+    <%= f.label :title %>
+    <%= f.text_field :title, class: "input" %>
+  </div>
+
+  <div>
+    <%= f.label :subtitle %>
+    <%= f.text_field :subtitle, class: "input" %>
+  </div>
+
+  <div>
+    <%= f.label :content %>
+    <%= f.text_area :content, class: "input" %>
+  </div>
+
+  <div>
+    <%= f.label :link %>
+    <%= f.text_field :link, class: "input" %>
+  </div>
+
+  <div>
+    <%= f.label :position %>
+    <%= f.number_field :position, class: "input" %>
+  </div>
+
+  <div>
+    <%= f.label :image %>
+    <%= f.file_field :image, class: "input" %>
+  </div>
+</div>
+
+<%= f.submit "Guardar", class: "btn-primary mt-4" %>

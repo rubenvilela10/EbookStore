@@ -1,5 +1,5 @@
 class Admin::OrdersController < Admin::AdminController
-  before_action :authenticate_admin
+  before_action :authenticate_admin!
   before_action :set_order, only: %i[show edit update destroy]
 
   layout "admin"

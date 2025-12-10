@@ -14,6 +14,9 @@ Rails.application.routes.draw do
     resources :orders
     resources :users
     resources :ebooks
+    resources :landing_pages do
+      resources :landing_sections, except: [ :show ]
+    end
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
