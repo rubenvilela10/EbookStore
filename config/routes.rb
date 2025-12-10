@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  root "home#index"
+  get "signup", to: "users#new"
+  post "signup", to: "users#create"
+
   namespace :admin do
     root to: "admin#index"
     resources :ebook_metrics
