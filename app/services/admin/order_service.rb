@@ -1,18 +1,22 @@
+require "browser"
 module Admin
   class OrderService
     FEE = 0.10
 
-    def initialize(order)
+    def initialize(order, request:)
       @order = order
       @buyer = order.buyer
+      @request = request
     end
 
     def new_order_transaction!(ebook_ids)
+      raise "You must select at least one ebook." if ebook_ids.empty?
+
       ebook_ids = Array(ebook_ids).map(&:to_i).reject(&:zero?)
 
       ebooks = Ebook.where(id: ebook_ids).index_by(&:id)
 
-      # Verifica se algum ebook não existe
+      # Check for ebooks that does not exist
       missing_ids = ebook_ids - ebooks.keys
       raise ActiveRecord::RecordInvalid.new(@order), "Invalid ebook(s): #{missing_ids.join(", ")}" if missing_ids.any?
 
@@ -22,10 +26,8 @@ module Admin
       ActiveRecord::Base.transaction do
         validate_balance!(total_price)
 
-        # Debita comprador
         @buyer.update!(balance: @buyer.balance - total_price)
 
-        # Atualiza order
         @order.update!(
           total_price: total_price,
           total_fee: total_fee
@@ -65,12 +67,31 @@ module Admin
 
     def register_metrics!
       @order.order_items.each do |item|
+        browser  = Browser.new(@request.user_agent)
+        location = Geocoder.search(@request.remote_ip).first
+
         EbookMetric.create!(
           ebook_id: item.ebook_id,
           event_type: "purchase",
-          ip: nil,
-          user_agent: nil,
-          extra_data: { order_id: @order.id }.to_json
+          ip: @request.remote_ip,
+          user_agent: @request.user_agent,
+          extra_data: {
+            order: {
+              id: @order.id
+            },
+            browser: {
+              name: browser.name,
+              version: browser.full_version,
+              platform: browser.platform.name,
+              device: browser.device.name
+            },
+            location: {
+              country: location&.country,
+              city: location&.city,
+              latitude: location&.latitude,
+              longitude: location&.longitude
+            }
+          }.to_json
         )
 
         stat = EbookStat.find_or_create_by!(ebook_id: item.ebook_id)
