@@ -28,12 +28,13 @@ class Admin::OrdersController < Admin::AdminController
     ebook_ids = Array(order_params[:ebook_ids]).reject(&:blank?).map(&:to_i)
 
     begin
-      Admin::OrderService.new(@order).new_order_transaction!(ebook_ids)
+      Admin::OrderService.new(@order, request: request).new_order_transaction!(ebook_ids)
       send_notifications(@order)
 
       redirect_to admin_order_path(@order), notice: "Order successfully created."
 
     rescue StandardError => e
+      Rails.logger.error "ERROR: #{e.class} - #{e.message}"
       flash.now[:alert] = e.message
       render :new, status: :unprocessable_entity
     end
