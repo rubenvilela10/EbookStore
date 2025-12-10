@@ -1,5 +1,5 @@
 class Admin::AdminController < ApplicationController
-  before_action :authenticate_admin
+  before_action :authenticate_admin!
 
   layout "admin"
 
@@ -23,5 +23,13 @@ class Admin::AdminController < ApplicationController
 
     @recent_events = EbookMetric.order(created_at: :desc).limit(10)
     @unique_visitors =  EbookMetric.select(:ip).distinct.count
+  end
+
+  private
+
+  def authenticate_admin!
+    unless current_user&.admin?
+      redirect_to root_path, alert: "Access Denied!"
+    end
   end
 end

@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     @user.status = "enable"
 
     if @user.save
-      redirect_to login_path, notice: "Account created successfully!"
+      redirect_to root_path, notice: "Account created successfully!"
     else
       render :new, status: :unprocessable_entity
     end
@@ -19,7 +19,7 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(
-      :email, :name, :password, :password_confirmation
+      :email, :phone_number, :name, :password, :password_confirmation
     )
   end
 end
