@@ -1,0 +1,33 @@
+<% content_for :title, "Landing Page" %>
+
+<div class="flex items-center justify-between mb-8">
+  <h1 class="text-3xl font-bold text-gray-800">Landing Page</h1>
+
+  <%= link_to new_admin_landing_page_path,
+        class: "inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition" do %>
+    <i data-lucide="plus" class="w-4 h-4"></i>
+    New User
+  <% end %>
+</div>
+
+<table class="table-auto w-full bg-white shadow rounded p-4">
+  <thead>
+    <tr class="border-b">
+      <th class="p-3 text-left">Title</th>
+      <th class="p-3">Published</th>
+      <th class="p-3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @landing_pages.each do |page| %>
+      <tr class="border-b">
+        <td class="p-3"><%= page.title %></td>
+        <td class="p-3"><%= page.published? ? "Yes" : "No" %></td>
+        <td class="p-3 text-right">
+          <%= link_to "View", admin_landing_page_path(page), class: "text-blue-600" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

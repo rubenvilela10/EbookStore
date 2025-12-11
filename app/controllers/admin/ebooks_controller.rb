@@ -1,5 +1,5 @@
 class Admin::EbooksController < Admin::AdminController
-  before_action :authenticate_admin
+  before_action :authenticate_admin!
   before_action :set_ebook, only: %i[ show edit update destroy ]
 
   layout "admin"

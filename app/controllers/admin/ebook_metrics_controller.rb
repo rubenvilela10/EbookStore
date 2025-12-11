@@ -1,5 +1,5 @@
 class Admin::EbookMetricsController < Admin::AdminController
-  before_action :authenticate_admin
+  before_action :authenticate_admin!
   before_action :set_ebook_metric, only: %i[ show edit update destroy ]
 
   layout "admin"

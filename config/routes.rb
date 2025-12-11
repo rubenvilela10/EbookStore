@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  root "home#index"
+  get "signup", to: "users#new"
+  post "signup", to: "users#create"
+
+  get "login", to: "sessions#new"
+  post "login", to: "sessions#create"
+  delete "logout", to: "sessions#destroy"
+
   namespace :admin do
     root to: "admin#index"
     resources :ebook_metrics
@@ -6,6 +14,9 @@ Rails.application.routes.draw do
     resources :orders
     resources :users
     resources :ebooks
+    resources :landing_pages do
+      resources :landing_sections, except: [ :show ]
+    end
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

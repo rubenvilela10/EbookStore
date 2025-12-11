@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+@import "../stylesheets/signup.scss";
 
 .form-page {
   h1 {
@@ -73,13 +73,6 @@
 
 #analytics {
     margin-top: 40px;
-}
-
-#analytics h1 {
-    font-size: 3.5rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: #1f2937; /* gray-800 */
 }
 
 #analytics h2 {

@@ -1,0 +1,25 @@
+<div id="login">
+  <div class="card">
+    <h1>Log in</h1>
+
+    <%= form_with url: login_path, local: true, class: "form" do |f| %>
+
+      <div class="field">
+        <%= f.label :email %>
+        <%= text_field_tag :email, nil %>
+      </div>
+
+      <div class="field">
+        <%= f.label :password %>
+        <%= password_field_tag :password, nil %>
+      </div>
+
+      <%= f.submit "Log In", class: "btn-primary" %>
+    <% end %>
+
+    <p class="mt-4 text-sm text-center">
+        Don't have an account?
+        <%= link_to "Sign up", signup_path, class: "text-green-600 font-semibold" %>
+    </p>
+  </div>
+</div>
