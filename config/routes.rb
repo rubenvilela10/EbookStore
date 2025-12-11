@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
   resources :ebooks, only: [ :index, :show ]
   resource :seller, only: [ :new, :create ]
-  resources :purchases, only: [ :index ]
+  resources :orders
 
   namespace :admin do
     root to: "admin#index"

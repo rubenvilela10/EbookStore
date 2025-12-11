@@ -38,7 +38,7 @@
             </div>
           <% end %>
         </button>
-        <div class="absolute right-0 mt-0 w-48 bg-white rounded-lg shadow-lg hidden group-hover:block border">
+        <div class="absolute right-0 mt-0 z-10 w-48 bg-white rounded-lg shadow-lg hidden group-hover:block border">
           <div class="py-2 text-sm text-gray-700">
 
             <%= link_to account_path, class: "block px-4 py-2 hover:bg-gray-100" do %>
@@ -46,14 +46,21 @@
               My Account
             <% end %>
 
-            <%= link_to purchases_path, class: "block px-4 py-2 hover:bg-gray-100" do %>
-              <i data-lucide="book" class="inline w-4 h-4 mr-1"></i>
-              My Ebooks
+            <%= link_to orders_path, class: "block px-4 py-2 hover:bg-gray-100" do %>
+              <i data-lucide="shopping-cart" class="inline w-4 h-4 mr-1"></i>
+              Orders
             <% end %>
 
             <%= link_to wallet_path, class: "block px-4 py-2 hover:bg-gray-100" do %>
               <i data-lucide="wallet" class="inline w-4 h-4 mr-1"></i>
               Wallet: <%= number_to_currency(current_user.balance) %>
+            <% end %>
+
+            <% if current_user.admin? %>
+              <%= link_to admin_root_path, class: "block px-4 py-2 hover:bg-gray-100" do %>
+                <i data-lucide="shield-user" class="inline w-4 h-4 mr-1"></i>
+                Dashboard
+              <% end %>
             <% end %>
             <hr>
 
