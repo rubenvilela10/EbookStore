@@ -5,6 +5,10 @@ class Ebook < ApplicationRecord
     has_many :orders, through: :order_items
     has_many :ebook_metrics, dependent: :destroy
     has_one :ebook_stat, dependent: :destroy
+    has_many :ebook_tags, dependent: :destroy
+    has_many :tags, through: :ebook_tags
+
+    attr_accessor :tag_list
 
     has_one_attached :pdf_draft
     has_one_attached :cover
@@ -20,6 +24,8 @@ class Ebook < ApplicationRecord
     scope :drafts, -> { where(status: "draft") }
     scope :pending, -> { where(status: "pending") }
 
+    after_save :assign_tags
+
     def purchase_count
         order_items.count
     end
@@ -34,5 +40,17 @@ class Ebook < ApplicationRecord
 
     def total_revenue
         order_items.sum(:price)
+    end
+
+    private
+
+    def assign_tags
+        return unless tag_list.present?
+
+        names = tag_list.split(",").map(&:strip).reject(&:empty?)
+
+        self.tags = names.map do |name|
+          Tag.find_or_create_by(name: name.downcase)
+        end
     end
 end
