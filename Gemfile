@@ -67,5 +67,5 @@ end
 
 gem "tailwindcss-rails", "~> 4.4"
 
-gem 'browser'
-gem 'geocoder'
+gem "browser"
+gem "geocoder"
