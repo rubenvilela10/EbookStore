@@ -47,7 +47,7 @@ class Admin::LandingPagesController < Admin::AdminController
 
   def landing_page_params
     params.require(:landing_page).permit(
-      :title, :subtitle, :description, :published, :banner_image
+      :title, :subtitle, :description, :published, :banner
     )
   end
 end

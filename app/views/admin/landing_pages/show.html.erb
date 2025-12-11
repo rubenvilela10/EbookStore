@@ -9,6 +9,12 @@
       <% if @landing_page.subtitle.present? %>
         <p class="text-gray-600 mt-1"><%= @landing_page.subtitle %></p>
       <% end %>
+      <% if @landing_page.description.present? %>
+        <p class="text-sm mt-1"><%= @landing_page.description %></p>
+      <% end %>
+      <% if @landing_page.banner.attached? %>
+        <%= image_tag @landing_page.banner, width:320, height:180%>
+      <% end %>
     </div>
     <%= link_to edit_admin_landing_page_path(@landing_page),
         class: "inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition" do %>
