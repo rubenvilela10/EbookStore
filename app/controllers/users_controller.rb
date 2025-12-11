@@ -9,6 +9,7 @@ class UsersController < ApplicationController
     @user.status = "enable"
 
     if @user.save
+      welcome_email(@user)
       redirect_to root_path, notice: "Account created successfully!"
     else
       render :new, status: :unprocessable_entity
@@ -21,5 +22,9 @@ class UsersController < ApplicationController
     params.require(:user).permit(
       :email, :phone_number, :name, :password, :password_confirmation
     )
+  end
+
+  def welcome_email(user)
+    UserMailer.send_welcome_email(user).deliver_later
   end
 end
