@@ -64,6 +64,17 @@
       </div>
     <% end %>
 
+    <%if @ebook.tags.any? %>
+      <div class="flex flex-wrap gap-2 mt-3">
+        <p>Tags:</p>
+        <% @ebook.tags.each do |tag| %>
+          <span class="px-2 py-1 text-sm bg-emerald-100 text-emerald-700 rounded-full">
+            <%= tag.name %>
+          </span>
+        <% end %>
+      </div>
+    <% end %>
+
   </div>
 </div>
 
