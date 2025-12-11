@@ -29,4 +29,20 @@ class EbooksController < ApplicationController
 
   def show
   end
+
+  def search
+    @query = params[:q]
+    @ebooks = Ebook.left_joins(:tags)
+
+    if params[:q].present?
+      query = "%#{params[:q].downcase}%"
+
+      @ebooks = @ebooks.where(
+        "LOWER(ebooks.title) LIKE :q OR LOWER(ebooks.description) LIKE :q OR LOWER(ebooks.author) LIKE :q OR LOWER(tags.name) LIKE :q",
+        q: query
+      ).distinct
+    end
+
+    render :index
+  end
 end

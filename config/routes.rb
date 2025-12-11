@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   post "login", to: "sessions#create"
   delete "logout", to: "sessions#destroy"
 
-  get "search", to: "search#index"
+  get "search", to: "ebooks#search"
 
   get "account", to: "users#account"
 
