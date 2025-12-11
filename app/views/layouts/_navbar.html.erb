@@ -1,48 +1,80 @@
 <nav class="w-full bg-white shadow px-6 py-4 flex items-center justify-between">
-
   <div class="flex items-center gap-3">
     <%= link_to root_path, class: "text-xl font-bold text-green-700" do %>
       EbookStore
     <% end %>
   </div>
 
-  <div class="flex items-center gap-6">
+  <div class="hidden md:flex items-center gap-6">
+    <%= link_to "Ebooks", ebooks_path, class: "text-gray-700 hover:text-gray-900 font-medium" %>
+    <%= link_to new_seller_path, class: "font-medium flex items-center gap-1 text-gray-700 hover:text-emerald-700" do %>
+      <i data-lucide="gem" class="w-4 h-4"></i>
+      Become a Seller
+    <% end %>
 
-    <% if logged_in? %>
+    <%= form_with url: search_path, method: :get, class: "flex items-center" do |f| %>
+      <div class="relative">
+        <%= f.text_field :q,
+              placeholder: "Search something...",
+              class: "border rounded-lg py-1.5 pl-3 pr-10 w-64 text-sm focus:ring-green-500 focus:border-green-500" %>
 
-      <div class="flex items-center gap-4">
-
-        <% if current_user.profile_pic.attached? %>
-          <%= image_tag current_user.profile_pic.variant(resize_to_fill: [40, 40]),
-                class: "w-10 h-10 rounded-full object-cover border" %>
-        <% else %>
-          <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
-            <i data-lucide="user" class="w-6 h-6 text-gray-600"></i>
-          </div>
-        <% end %>
-
-        <div class="text-sm">
-          <p class="font-semibold"><%= current_user.name %></p>
-          <p class="text-gray-600">Balance: <%= number_to_currency(current_user.balance) %></p>
-        </div>
-
+        <button type="submit" class="absolute right-2 top-2 text-gray-500">
+          <i data-lucide="search" class="w-4 h-4"></i>
+        </button>
       </div>
+    <% end %>
+  </div>
 
-      <%= link_to "Logout",
-            logout_path,
-            data: { turbo_method: :delete },
-            class: "text-red-600 hover:text-red-800 font-medium" %>
+  <div class="flex items-center gap-6">
+    <% if logged_in? %>
+      <div class="relative group">
+        <button class="flex items-center gap-3">
+          <% if current_user.profile_pic.attached? %>
+            <%= image_tag current_user.profile_pic.variant(resize_to_fill: [40, 40]),
+                  class: "w-10 h-10 rounded-full object-cover border" %>
+          <% else %>
+            <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+              <i data-lucide="user" class="w-6 h-6 text-gray-600"></i>
+            </div>
+          <% end %>
+        </button>
+        <div class="absolute right-0 mt-0 w-48 bg-white rounded-lg shadow-lg hidden group-hover:block border">
+          <div class="py-2 text-sm text-gray-700">
 
+            <%= link_to account_path, class: "block px-4 py-2 hover:bg-gray-100" do %>
+              <i data-lucide="user" class="inline w-4 h-4 mr-1"></i>
+              My Account
+            <% end %>
+
+            <%= link_to purchases_path, class: "block px-4 py-2 hover:bg-gray-100" do %>
+              <i data-lucide="book" class="inline w-4 h-4 mr-1"></i>
+              My Ebooks
+            <% end %>
+
+            <%= link_to wallet_path, class: "block px-4 py-2 hover:bg-gray-100" do %>
+              <i data-lucide="wallet" class="inline w-4 h-4 mr-1"></i>
+              Wallet: <%= number_to_currency(current_user.balance) %>
+            <% end %>
+            <hr>
+
+            <%= link_to logout_path,
+                  data: { turbo_method: :delete },
+                  class: "block px-4 py-2 text-red-600 hover:bg-gray-100 hover:text-red-800" do %>
+              <i data-lucide="log-out" class="inline w-4 h-4 mr-1"></i>
+              Logout
+            <% end %>
+          </div>
+        </div>
+      </div>
     <% else %>
+      <%= link_to "Ebooks", ebooks_path,
+            class: "text-gray-700 hover:text-gray-900 font-medium md:hidden" %>
 
       <%= link_to "Login", login_path,
             class: "text-gray-700 hover:text-gray-900 font-medium" %>
 
       <%= link_to "Sign Up", signup_path,
             class: "bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700" %>
-
     <% end %>
-
   </div>
-
 </nav>

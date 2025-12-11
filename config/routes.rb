@@ -7,6 +7,17 @@ Rails.application.routes.draw do
   post "login", to: "sessions#create"
   delete "logout", to: "sessions#destroy"
 
+  get "search", to: "search#index"
+
+  get "account", to: "users#account"
+
+  get "wallet", to: "wallets#show"
+  post "wallet/add", to: "wallets#add_money"
+
+  resources :ebooks, only: [ :index, :show ]
+  resource :seller, only: [ :new, :create ]
+  resources :purchases, only: [ :index ]
+
   namespace :admin do
     root to: "admin#index"
     resources :ebook_metrics
