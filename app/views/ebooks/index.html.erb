@@ -1,0 +1,54 @@
+<div class="min-h-screen bg-gray-50 py-20">
+  <h1 class="mx-auto text-center text-5xl font-extrabold text-gray-900 mb-12">
+    Explore Our <span class="text-emerald-600">Ebooks</span>
+  </h1>
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-4 gap-10">
+
+    <aside class="lg:col-span-1">
+      <%= render "filters" %>
+    </aside>
+
+    <main class="lg:col-span-3">
+      <% if @ebooks.empty? %>
+        <p class="text-center text-gray-600 text-lg">No ebooks available at the moment.</p>
+      <% else %>
+        <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-5">
+          <% @ebooks.each do |ebook| %>
+            <div class="flex flex-col">
+              <% if ebook.cover.attached? %>
+                <%= image_tag ebook.cover,
+                        class: "w-full aspect-[2/3] object-cover" %>
+              <% else %>
+                <div class="w-full aspect-[2/3] bg-gray-300"></div>
+              <% end %>
+
+              <h2 class="text-2xl font-bold text-gray-900 mt-4 truncate">
+                <%= ebook.title %>
+              </h2>
+
+              <p class="text-gray-600 text-sm mb-4">
+                by <span class="font-medium"><%= ebook.author %></span>
+              </p>
+
+              <% if ebook.description.present? %>
+                <p class="text-gray-700 text-base line-clamp-3 mb-6">
+                  <%= ebook.description %>
+                </p>
+              <% end %>
+
+              <div class="mt-auto flex items-center justify-between pt-4">
+                <p class="text-xl font-semibold text-emerald-600">
+                  <%= number_to_currency(ebook.price) %>
+                </p>
+
+                <%= link_to "View",
+                      ebook_path(ebook),
+                      class: "px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition text-sm font-semibold" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </main>
+  </div>
+</div>

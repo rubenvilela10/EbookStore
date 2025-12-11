@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_10_152930) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_11_142210) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -61,16 +61,16 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_10_152930) do
   end
 
   create_table "ebooks", force: :cascade do |t|
-    t.string "author"
+    t.string "author", null: false
     t.datetime "created_at", null: false
     t.string "description"
     t.decimal "price", precision: 10, scale: 2, default: "0.0", null: false
     t.integer "seller_id", null: false
-    t.string "status"
+    t.string "status", default: "draft", null: false
     t.string "timestamps"
-    t.string "title"
+    t.string "title", null: false
     t.datetime "updated_at", null: false
-    t.date "year"
+    t.date "year", null: false
     t.index ["seller_id"], name: "index_ebooks_on_seller_id"
   end
 
