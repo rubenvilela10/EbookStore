@@ -11,7 +11,7 @@ class Admin::LandingSectionsController < Admin::AdminController
     @section = @landing_page.landing_sections.new(section_params)
 
     if @section.save
-      redirect_to admin_landing_page_path(@landing_page), notice: "Secção criada."
+      redirect_to admin_landing_page_path(@landing_page), notice: "Section created successfully."
     else
       render :new, status: :unprocessable_entity
     end
@@ -22,7 +22,7 @@ class Admin::LandingSectionsController < Admin::AdminController
 
   def update
     if @section.update(section_params)
-      redirect_to admin_landing_page_path(@landing_page), notice: "Secção atualizada."
+      redirect_to admin_landing_page_path(@landing_page), notice: "Section updated.."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -30,7 +30,7 @@ class Admin::LandingSectionsController < Admin::AdminController
 
   def destroy
     @section.destroy
-    redirect_to admin_landing_page_path(@landing_page), notice: "Secção removida."
+    redirect_to admin_landing_page_path(@landing_page), notice: "Section removed."
   end
 
   private

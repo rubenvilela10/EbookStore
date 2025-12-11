@@ -1,6 +1,14 @@
-<h1 class="text-2xl font-bold mb-6">Landing Pages</h1>
+<% content_for :title, "Landing Page" %>
 
-<%= link_to "New", new_admin_landing_page_path, class: "btn-primary mb-4 inline-block" %>
+<div class="flex items-center justify-between mb-8">
+  <h1 class="text-3xl font-bold text-gray-800">Landing Page</h1>
+
+  <%= link_to new_admin_landing_page_path,
+        class: "inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition" do %>
+    <i data-lucide="plus" class="w-4 h-4"></i>
+    New User
+  <% end %>
+</div>
 
 <table class="table-auto w-full bg-white shadow rounded p-4">
   <thead>

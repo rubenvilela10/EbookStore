@@ -1,32 +1,106 @@
-<h1 class="text-2xl font-bold mb-4"><%= @landing_page.title %></h1>
+<% content_for :title, "Landing Page Details" %>
 
-<%= link_to "Edit", edit_admin_landing_page_path(@landing_page), class: "btn-primary" %>
+<p class="text-green-600 mb-4"><%= notice %></p>
 
-<hr class="my-6">
-
-<h2 class="text-xl font-semibold mb-4">Sections</h2>
-
-<%= link_to "Add Section",
-    new_admin_landing_page_landing_section_path(@landing_page),
-    class: "btn-primary mb-4 inline-block" %>
-
-<div class="space-y-4">
-  <% @landing_page.landing_sections.order(:position).each do |s| %>
-    <div class="bg-white p-4 rounded shadow">
-      <h3 class="text-lg font-bold"><%= s.title %></h3>
-      <p><%= s.subtitle %></p>
-
-      <div class="mt-2">
-        <%= link_to "Edit",
-          edit_admin_landing_page_landing_section_path(@landing_page, s),
-          class: "text-blue-600" %>
-
-        <%= link_to "Delete",
-          admin_landing_page_landing_section_path(@landing_page, s),
-          method: :delete,
-          data: { confirm: "Apagar secção?" },
-          class: "text-red-600 ml-4" %>
-      </div>
+<div class="bg-white shadow-lg rounded-xl p-8 border border-gray-200">
+  <div class="flex items-center justify-between mb-8 pb-6 border-b">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-800"><%= @landing_page.title %></h1>
+      <% if @landing_page.subtitle.present? %>
+        <p class="text-gray-600 mt-1"><%= @landing_page.subtitle %></p>
+      <% end %>
     </div>
+    <%= link_to edit_admin_landing_page_path(@landing_page),
+        class: "inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition" do %>
+      <i data-lucide="pencil" class="w-4 h-4"></i>
+      Edit
+    <% end %>
+  </div>
+
+  <div>
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-semibold text-gray-800">Sections</h2>
+      <%= link_to new_admin_landing_page_landing_section_path(@landing_page),
+          class: "inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 transition" do %>
+        <i data-lucide="plus" class="w-4 h-4"></i>
+        Add Section
+      <% end %>
+    </div>
+
+    <div class="space-y-4 mt-6">
+      <% @landing_page.landing_sections.order(:position).each do |s| %>
+        <div class="bg-gray-50 p-5 rounded-lg border shadow-sm hover:shadow transition">
+          <div class="flex justify-between items-start">
+            <div>
+
+              <h3 class="text-xl font-semibold text-gray-900">
+                <%= s.title %>
+              </h3>
+
+              <% if s.subtitle.present? %>
+                <p class="text-gray-700">
+                  <%= s.subtitle %>
+                </p>
+              <% end %>
+
+              <% if s.content.present? %>
+                <p class="text-gray-600 text-sm leading-relaxed">
+                  <%= s.content %>
+                </p>
+              <% end %>
+
+              <% if s.link.present? %>
+                <a href="<%= s.link %>" 
+                  class="inline-block text-blue-600 hover:text-blue-800 text-sm font-medium underline">
+                  Visit link
+                </a>
+              <% end %>
+
+              <span class="inline-flex items-center px-2 py-1 text-xs font-semibold rounded bg-blue-100 text-blue-700">
+                Position: <%= s.position %>
+              </span>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <%= link_to edit_admin_landing_page_landing_section_path(@landing_page, s),
+                  class: "text-blue-600 hover:text-blue-800 inline-flex items-center gap-1" do %>
+                <i data-lucide="pencil" class="w-4 h-4"></i>
+                Edit
+              <% end %>
+
+              <%= link_to admin_landing_page_landing_section_path(@landing_page, s),
+                  method: :delete,
+                  data: { confirm: "Delete this section?" },
+                  class: "text-red-600 hover:text-red-800 inline-flex items-center gap-1" do %>
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                Delete
+              <% end %>
+            </div>
+          </div>
+
+        </div>
+      <% end %>
+
+      <% if @landing_page.landing_sections.empty? %>
+        <p class="text-gray-500 text-sm">No sections added yet.</p>
+      <% end %>
+
+    </div>
+  </div>
+</div>
+
+<div class="flex items-center justify-between mt-8">
+
+  <%= link_to admin_landing_pages_path,
+      class: "inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition" do %>
+    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+    Back to landing pages
+  <% end %>
+
+  <%= link_to admin_landing_page_path(@landing_page),
+        data: { turbo_method: "delete", turbo_confirm: "Are you sure you want to delete?" },
+        class: "inline-flex items-center gap-1 text-red-600 hover:text-red-800 transition" do %>
+    <i data-lucide="trash-2" class="w-5 h-5"></i>
+    Delete Page
   <% end %>
 </div>

@@ -1,28 +1,43 @@
-<div class="space-y-4">
-  <div>
-    <%= f.label :title %>
-    <%= f.text_field :title, class: "input" %>
+<%= form_with(model: [:admin, landing_page], class: "form-card") do |form| %>
+  <% if landing_page.errors.any? %>
+    <div class="form-errors">
+      <h2>
+        <%= pluralize(landing_page.errors.count, "error") %> prevented this landing page from being saved:
+      </h2>
+      <ul>
+        <% landing_page.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-field">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-input" %>
+  </div>
+
+  <div class="form-field">
+    <%= form.label :subtitle, class: "form-label" %>
+    <%= form.text_field :subtitle, class: "form-input" %>
+  </div>
+
+  <div class="form-field">
+    <%= form.label :description, class: "form-label" %>
+    <%= form.text_field :description, class: "form-input" %>
+  </div>
+
+  <div class="form-field">
+    <%= form.label :published, class: "form-label" %>
+    <%= form.checkbox :published %>
+  </div>
+
+  <div class="form-field">
+    <%= form.label "Main Banner", class: "form-label" %>
+    <%= form.file_field :banner, class: "form-input" %>
   </div>
 
   <div>
-    <%= f.label :subtitle %>
-    <%= f.text_field :subtitle, class: "input" %>
+    <%= form.submit "Save Landing Page", class: "form-submit" %>
   </div>
-
-  <div>
-    <%= f.label :description %>
-    <%= f.text_area :description, class: "input" %>
-  </div>
-
-  <div>
-    <%= f.label :published %>
-    <%= f.check_box :published %>
-  </div>
-
-  <div>
-    <%= f.label :banner_image %>
-    <%= f.file_field :banner_image, class: "input" %>
-  </div>
-</div>
-
-<%= f.submit "Guardar", class: "btn-primary mt-4" %>
+<% end %>
