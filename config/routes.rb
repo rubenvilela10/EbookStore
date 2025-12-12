@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   get "search", to: "ebooks#search"
 
-  get "statistics", to: "seller#statistics"
+  get "statistics", to: "sellers#statistics"
 
   resources :ebooks, only: [ :index, :show ] do
     member do
