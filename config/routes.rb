@@ -14,7 +14,11 @@ Rails.application.routes.draw do
   get "wallet", to: "wallets#show"
   post "wallet/add", to: "wallets#add_money"
 
-  resources :ebooks, only: [ :index, :show ]
+  resources :ebooks, only: [ :index, :show ] do
+    member do
+      get :download_draft
+    end
+  end
   resource :seller, only: [ :new, :create ]
   resources :orders
 

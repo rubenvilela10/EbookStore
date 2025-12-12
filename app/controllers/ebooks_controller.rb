@@ -1,4 +1,5 @@
 class EbooksController < ApplicationController
+  before_action :set_ebook, only: :show
   def index
     @ebooks = Ebook.all
 
@@ -28,6 +29,16 @@ class EbooksController < ApplicationController
   end
 
   def show
+    EbookMetric.create!(
+      ebook_id: @ebook.id,
+      event_type: "view_ebook",
+      ip: request.remote_ip,
+      user_agent: request.user_agent,
+      extra_data: { user: { id: current_user&.id } }
+    )
+
+    stat = EbookStat.find_or_create_by!(ebook_id: @ebook.id)
+    stat.increment!(:views_count)
   end
 
   def search
@@ -49,5 +60,37 @@ class EbooksController < ApplicationController
     end
 
     render :index
+  end
+
+  def download_draft
+    set_ebook
+
+    unless @ebook.pdf_draft.attached?
+      redirect_to @ebook, notice: "No pdf available for download!"
+    end
+
+    EbookMetric.create!(
+      ebook_id: @ebook.id,
+      event_type: "view_pdf",
+      ip: request.remote_ip,
+      user_agent: request.user_agent,
+      extra_data: { user: { id: current_user&.id } }
+    )
+
+    stat = EbookStat.find_or_create_by!(ebook_id: @ebook.id)
+    stat.increment!(:downloads_count)
+
+    send_data(
+      @ebook.pdf_draft.download,
+      filename: "#{@ebook.title.parameterize}.pdf",
+      type: "application/pdf",
+      disposition: "attachment"
+    )
+  end
+
+  private
+
+  def set_ebook
+    @ebook = Ebook.find(params[:id])
   end
 end

@@ -1,0 +1,102 @@
+<div class="max-w-7xl mx-auto py-12 px-6">
+
+  <%= link_to ebooks_path, class: "text-gray-600 hover:text-gray-900 flex items-center gap-2 mb-6" do %>
+    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+    Back to Ebooks
+  <% end %>
+
+  <div class="bg-white p-8 border border-gray-200">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+      <div class="flex justify-center">
+        <% if @ebook.cover.attached? %>
+          <%= image_tag @ebook.cover, class: "w-60 h-80 object-cover" %>
+        <% else %>
+          <div class="w-60 h-80 bg-gray-200 flex items-center justify-center text-gray-500 text-4xl">
+            <i data-lucide="book-open"></i>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="md:col-span-2 flex flex-col justify-between">
+        <div>
+          <h1 class="text-4xl font-bold text-gray-800 mb-2"><%= @ebook.title %></h1>
+
+          <p class="text-gray-600 text-lg mb-1">
+            <span class="font-semibold">Author:</span> <%= @ebook.author %>
+          </p>
+
+          <% if @ebook.year.present? %>
+            <p class="text-gray-600 text-lg mb-4">
+              <span class="font-semibold">Year:</span> <%= @ebook.year.year %>
+            </p>
+          <% end %>
+
+          <% if @ebook.tags.any? %>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <% @ebook.tags.each do |tag| %>
+                <span class="px-2 py-1 bg-indigo-100 text-indigo-700 text-xs rounded-lg">
+                  <%= tag.name %>
+                </span>
+              <% end %>
+            </div>
+          <% end %>
+
+          <p class="text-gray-700 leading-relaxed mb-6">
+            <%= simple_format(@ebook.description) %>
+          </p>
+        </div>
+
+        <div class="flex items-center justify-between mt-6">
+          <div>
+            <span class="text-3xl font-bold text-green-600">
+              <%= number_to_currency(@ebook.price) %>
+            </span>
+          </div>
+
+          <%= link_to "#",
+                class: "inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition" do %>
+                <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                Buy Now
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+    
+    <% if @ebook.pdf_draft.attached? %>
+        <div class="mt-12 border-t pt-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Preview Draft</h2>
+
+            <%= link_to download_draft_ebook_path(@ebook),
+                class: "inline-flex items-center gap-2 px-5 py-3 
+                        bg-green-600 text-white rounded-lg shadow 
+                        hover:bg-green-800 transition" do %>
+                <i data-lucide="download" class="w-5 h-5"></i>
+                Download PDF Draft
+            <% end %>
+        </div>
+    <% else %>
+        <p class="text-gray-500 italic">No draft available.</p>
+    <% end %>
+
+    <div class="mt-12 border-t pt-8">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Seller</h2>
+
+      <% if @ebook.seller.present? %>
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-2xl">
+            <i data-lucide="user"></i>
+          </div>
+
+          <div>
+            <p class="text-lg font-semibold text-gray-800"><%= @ebook.seller.name %></p>
+            <p class="text-gray-600 text-sm"><%= @ebook.seller.email %></p>
+          </div>
+        </div>
+      <% else %>
+        <p class="text-gray-500 italic">No seller information.</p>
+      <% end %>
+    </div>
+  </div>
+</div>
