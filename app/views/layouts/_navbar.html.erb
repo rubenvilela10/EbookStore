@@ -41,7 +41,7 @@
         <div class="absolute right-0 mt-0 z-10 w-48 bg-white rounded-lg shadow-lg hidden group-hover:block border">
           <div class="py-2 text-sm text-gray-700">
 
-            <%= link_to account_path, class: "block px-4 py-2 hover:bg-gray-100" do %>
+            <%= link_to user_path, class: "block px-4 py-2 hover:bg-gray-100" do %>
               <i data-lucide="user" class="inline w-4 h-4 mr-1"></i>
               My Account
             <% end %>
@@ -51,7 +51,7 @@
               Orders
             <% end %>
 
-            <%= link_to wallet_path, class: "block px-4 py-2 hover:bg-gray-100" do %>
+            <%= link_to wallet_user_path, class: "block px-4 py-2 hover:bg-gray-100" do %>
               <i data-lucide="wallet" class="inline w-4 h-4 mr-1"></i>
               Wallet: <%= number_to_currency(current_user.balance) %>
             <% end %>

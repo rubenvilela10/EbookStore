@@ -1,0 +1,12 @@
+<div class="max-w-7xl mx-auto py-12 px-6">
+    <h2 class="text-xl font-semibold mb-3">Wallet</h2>
+
+    <p class="mb-4">
+        Current balance: <strong><%= number_to_currency(@user.balance) %></strong>
+    </p>
+
+    <%= form_with url: balance_user_path, method: :put, local: true, class: "flex gap-2" do |f| %>
+        <%= number_field_tag :amount, nil, step: 0.01, class: "form-input", placeholder: "Amount €" %>
+        <%= f.submit "Add Money", class: "form-submit" %>
+    <% end %>
+</div>

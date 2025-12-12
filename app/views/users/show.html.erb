@@ -1,0 +1,70 @@
+<div class="max-w-7xl mx-auto py-12 px-6">
+    <p class="text-green-600 mb-4 mx-auto max-w-7xl"><%= notice %></p>
+  
+    <%= link_to root_path, class: "text-gray-600 hover:text-gray-900 flex items-center gap-2 mb-6" do %>
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        Back to Home
+    <% end %>
+
+    <div class="bg-white shadow-lg rounded-xl p-8 border border-gray-200">
+        <div class="flex items-center gap-6 mb-8 pb-6 border-b">
+            <% if @user.profile_pic.attached? %>
+                <%= image_tag @user.profile_pic,
+                    class: "w-28 h-28 rounded-full object-cover border shadow" %>
+            <% else %>
+                <div class="w-28 h-28 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-4xl border shadow">
+                    <i data-lucide="user"></i>
+                </div>
+            <% end %>
+            <div class="flex flex-col gap-1">
+                <h1 class="text-3xl font-bold text-gray-800"><%= @user.name %></h1>
+                <p class="text-gray-600"><%= @user.email %></p>
+
+                <div class="flex items-center gap-3 mt-2">
+                    <span class="px-2 py-1 rounded bg-indigo-100 text-indigo-700 text-xs font-medium">
+                        <%= @user.role.capitalize %>
+                    </span>
+                    <% if @user.status == "enabled" %>
+                        <span class="px-2 py-1 rounded bg-green-100 text-green-700 text-xs font-medium">Enabled</span>
+                    <% else %>
+                        <span class="px-2 py-1 rounded bg-red-100 text-red-700 text-xs font-medium">Disabled</span>
+                    <% end %>
+                </div>
+            </div>
+            <div class="flex-1 flex justify-end">
+                <%= link_to edit_user_path,
+                    class: "inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition" do %>
+                    <i data-lucide="pencil" class="w-4 h-4"></i>
+                    Edit
+                <% end %>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">    
+            <div class="info-block">
+                <h2 class="label">Phone</h2>
+                <p class="value"><%= @user.phone_number.presence || "—" %></p>
+            </div>
+
+            <div class="info-block">
+                <h2 class="label">Balance</h2>
+                <p class="value"><%= number_to_currency(@user.balance) %></p>
+            </div>
+
+            <div class="info-block">
+                <h2 class="label">Age</h2>
+                <p class="value"><%= @user.age.presence || "—" %></p>
+            </div>
+
+            <div class="info-block">
+                <h2 class="label">Address</h2>
+                <p class="value"><%= @user.address.presence || "—" %></p>
+            </div>
+
+            <div class="info-block">
+                <h2 class="label">Country</h2>
+                <p class="value"><%= @user.country.presence || "—" %></p>
+            </div>
+        </div>
+    </div>
+</div>
