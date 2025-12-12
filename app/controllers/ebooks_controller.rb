@@ -32,7 +32,12 @@ class EbooksController < ApplicationController
 
   def search
     @query = params[:q]
+
+    # left join - returns all ebooks and ebooks with tags
+    # join returns ebook with tags
+    # right join return all tags and ebooks with tags
     @ebooks = Ebook.left_joins(:tags)
+
 
     if params[:q].present?
       query = "%#{params[:q].downcase}%"

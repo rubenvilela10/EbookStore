@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   def new
+    session[:return_to] = request.referer
     @user = User.new
   end
 
@@ -10,7 +11,7 @@ class UsersController < ApplicationController
 
     if @user.save
       welcome_email(@user)
-      redirect_to root_path, notice: "Account created successfully!"
+      redirect_to(session.delete(:return_to) || root_path, notice: "Account created successfully!")
     else
       render :new, status: :unprocessable_entity
     end
