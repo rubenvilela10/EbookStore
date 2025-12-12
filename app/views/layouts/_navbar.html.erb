@@ -7,7 +7,14 @@
 
   <div class="hidden md:flex items-center gap-6">
     <%= link_to "Ebooks", ebooks_path, class: "text-gray-700 hover:text-gray-900 font-medium" %>
-    <% if current_user.buyer? %>
+    <% if logged_in? %>
+      <% if current_user.buyer? %>
+        <%= link_to new_seller_path, class: "font-medium flex items-center gap-1 text-gray-700 hover:text-emerald-700" do %>
+          <i data-lucide="gem" class="w-4 h-4"></i>
+          Become a Seller
+        <% end %>
+      <% end %>
+    <% else %>
       <%= link_to new_seller_path, class: "font-medium flex items-center gap-1 text-gray-700 hover:text-emerald-700" do %>
         <i data-lucide="gem" class="w-4 h-4"></i>
         Become a Seller
