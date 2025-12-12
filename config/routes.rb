@@ -9,18 +9,19 @@ Rails.application.routes.draw do
 
   get "search", to: "ebooks#search"
 
-  get "account", to: "users#account"
-
-  get "wallet", to: "wallets#show"
-  post "wallet/add", to: "wallets#add_money"
-
   resources :ebooks, only: [ :index, :show ] do
     member do
       get :download_draft
     end
   end
-  resource :seller, only: [ :new, :create ]
   resources :orders
+  resource :seller, only: [ :new, :create ]
+  resource :user do
+    member do
+      get :wallet
+      put :balance
+    end
+  end
 
   namespace :admin do
     root to: "admin#index"
