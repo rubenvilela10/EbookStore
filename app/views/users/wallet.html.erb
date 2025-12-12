@@ -4,9 +4,10 @@
     <p class="mb-4">
         Current balance: <strong><%= number_to_currency(@user.balance) %></strong>
     </p>
-
-    <%= form_with url: balance_user_path, method: :put, local: true, class: "flex gap-2" do |f| %>
-        <%= number_field_tag :amount, nil, step: 0.01, class: "form-input", placeholder: "Amount €" %>
-        <%= f.submit "Add Money", class: "form-submit" %>
+    <% if current_user.buyer? %>
+        <%= form_with url: balance_user_path, method: :put, local: true, class: "flex gap-2" do |f| %>
+            <%= number_field_tag :amount, nil, step: 0.01, class: "form-input", placeholder: "Amount €" %>
+            <%= f.submit "Add Money", class: "form-submit" %>
+        <% end %>
     <% end %>
 </div>

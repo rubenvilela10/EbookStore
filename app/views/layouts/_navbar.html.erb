@@ -7,10 +7,13 @@
 
   <div class="hidden md:flex items-center gap-6">
     <%= link_to "Ebooks", ebooks_path, class: "text-gray-700 hover:text-gray-900 font-medium" %>
-    <%= link_to new_seller_path, class: "font-medium flex items-center gap-1 text-gray-700 hover:text-emerald-700" do %>
-      <i data-lucide="gem" class="w-4 h-4"></i>
-      Become a Seller
+    <% if current_user.buyer? %>
+      <%= link_to new_seller_path, class: "font-medium flex items-center gap-1 text-gray-700 hover:text-emerald-700" do %>
+        <i data-lucide="gem" class="w-4 h-4"></i>
+        Become a Seller
+      <% end %>
     <% end %>
+    
 
     <%= form_with url: search_path, method: :get, class: "flex items-center" do |f| %>
       <div class="relative">
@@ -46,14 +49,23 @@
               My Account
             <% end %>
 
-            <%= link_to orders_path, class: "block px-4 py-2 hover:bg-gray-100" do %>
-              <i data-lucide="shopping-cart" class="inline w-4 h-4 mr-1"></i>
-              Orders
+            <% if current_user.buyer? %>
+              <%= link_to orders_path, class: "block px-4 py-2 hover:bg-gray-100" do %>
+                <i data-lucide="shopping-cart" class="inline w-4 h-4 mr-1"></i>
+                Orders
+              <% end %>
             <% end %>
 
             <%= link_to wallet_user_path, class: "block px-4 py-2 hover:bg-gray-100" do %>
               <i data-lucide="wallet" class="inline w-4 h-4 mr-1"></i>
               Wallet: <%= number_to_currency(current_user.balance) %>
+            <% end %>
+
+            <% if current_user.seller? %>
+              <%= link_to statistics_path, class: "block px-4 py-2 hover:bg-gray-100" do %>
+                <i data-lucide="chart-area" class="inline w-4 h-4 mr-1"></i>
+                Statistics
+              <% end %>
             <% end %>
 
             <% if current_user.admin? %>

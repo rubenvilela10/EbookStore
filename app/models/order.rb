@@ -12,8 +12,4 @@ class Order < ApplicationRecord
   validates :payment_status, inclusion: { in: STATUSES }
   validates :destination_address, presence: true
   validates :billing_address, presence: true
-
-  def purchased_at
-    created_at.to_date
-  end
 end

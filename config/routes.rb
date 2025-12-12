@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   get "search", to: "ebooks#search"
 
+  get "statistics", to: "seller#statistics"
+
   resources :ebooks, only: [ :index, :show ] do
     member do
       get :download_draft
