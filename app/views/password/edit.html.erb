@@ -1,0 +1,40 @@
+<div class="max-w-7xl mx-auto py-10">
+  <h1 class="text-2xl font-semibold mb-6 text-center">
+    Update Your Password
+  </h1>
+
+  <p class="text-gray-600 mb-6 text-center">
+    Your password has expired. Please create a new one to continue.
+  </p>
+  <%= form_with model: @user, url: password_path, method: :patch, local: true, class: "form-card" do |f| %>
+      <% if 
+      @user.errors.any? %>
+        <div class="mb-4 p-3 border border-red-300 text-red-600 bg-red-50 rounded">
+            <strong>There were errors:</strong>
+            <ul class="mt-2 list-disc list-inside text-sm">
+            <% 
+            @user.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+            </ul>
+        </div>
+      <% end %>
+
+
+      
+      <div class="form-field">
+          <%= f.label :password, class: "form-label" %>
+          <%= f.password_field :password, class: "form-input", placeholder: "New password (optional)" %>
+      </div>
+
+      <div class="form-field">
+          <%= f.label :password_confirmation, class: "form-label" %>
+          <%= f.password_field :password_confirmation, class: "form-input", placeholder: "Confirm new password" %>
+      </div>
+
+      <div class="mt-6">
+          <%= f.submit "Save Password", class: "form-submit" %>
+      </div>
+
+  <% end %>
+</div>

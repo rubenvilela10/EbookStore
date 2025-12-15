@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     end
   end
   resources :orders
+  resources :password, only: [ :edit, :update ]
   resource :seller, only: [ :new, :create ]
   resource :user do
     member do
