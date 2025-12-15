@@ -17,13 +17,14 @@ class Ebook < ApplicationRecord
 
     validates :title, presence: true
     validates :status, presence: true, inclusion: { in: STATUSES }
-    validates :price, presence: true, numericality: { greather_than_or_equal_to: 0 }
+    validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
+    validates :author, presence: true
 
 
     scope :live, -> { where(status: "live") }
     scope :drafts, -> { where(status: "draft") }
     scope :pending, -> { where(status: "pending") }
-
+    scope :by_seller, ->(user) { where(seller: user) }
     after_save :assign_tags
 
     def purchase_count
@@ -40,6 +41,16 @@ class Ebook < ApplicationRecord
 
     def total_revenue
         order_items.sum(:price)
+    end
+
+    def publish!
+        return if live
+        update!(status: Ebook::STATUSES[2])
+    end
+
+    def submit_for_review!
+        return if draft
+        update!(status: Ebook::STATUSES[1])
     end
 
     private
