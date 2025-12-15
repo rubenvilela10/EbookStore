@@ -7,6 +7,10 @@ class SessionsController < ApplicationController
     user = User.find_by(email: params[:email].downcase)
 
     if user&.authenticate(params[:password])
+      if user.password_expired?
+        redirect_to edit_password_path(user), alert: "Your password has expired. Please update it."
+        return
+      end
       session[:user_id] = user.id
       redirect_to(session.delete(:return_to) || root_path, notice: "Logged in!")
     else

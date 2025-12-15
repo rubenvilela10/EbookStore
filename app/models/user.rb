@@ -10,6 +10,7 @@ class User < ApplicationRecord
     has_one_attached :profile_pic
 
     before_save { self.email = email.downcase }
+    before_save :set_password_changed_at, if: :will_save_change_to_password_digest?
 
     validates :name, presence: true
     validates :email,
@@ -34,5 +35,11 @@ class User < ApplicationRecord
 
     def buyer?
         role == "buyer"
+    end
+
+    private
+
+    def set_password_changed_at
+        self.password_changed_at = Time.current
     end
 end
