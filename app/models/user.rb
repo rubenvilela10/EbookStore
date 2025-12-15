@@ -37,6 +37,24 @@ class User < ApplicationRecord
         role == "buyer"
     end
 
+    def enable!
+        return if enabled?
+        update!(status: "enabled")
+    end
+
+    def disable!
+        return if disabled?
+        update!(status: "disabled")
+    end
+
+    def enabled?
+        status == "enabled"
+    end
+
+    def disabled?
+        status == "disabled"
+    end
+
     private
 
     def set_password_changed_at
