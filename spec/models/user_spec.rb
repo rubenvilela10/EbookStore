@@ -28,6 +28,12 @@ RSpec.describe User, type: :model do
       expect(subject).not_to be_valid
       expect(subject.errors[:email]).to include("has already been taken")
     end
+
+    it "downcases the email address" do
+      user = create(:user, email: "TEST@EMAIL.COM")
+
+      expect(user.email).to eq("test@email.com")
+    end
   end
 
   describe "status methods" do
