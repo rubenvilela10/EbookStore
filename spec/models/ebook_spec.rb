@@ -37,13 +37,29 @@ RSpec.describe Ebook, type: :model do
     end
   end
 
-  describe 'live status' do
+  describe 'status' do
     it 'returns only live ebooks' do
       draft_ebook = create(:ebook, status: :draft)
       live_ebook  = create(:ebook, status: :live)
 
       expect(Ebook.live).to include(live_ebook)
       expect(Ebook.live).not_to include(draft_ebook)
+    end
+
+    it "should change status from draft to pending" do
+      draft_ebook = create(:ebook, status: :draft)
+
+      draft_ebook.submit_for_review!
+
+      expect(draft_ebook.status).to eq("pending")
+    end
+
+    it "should change status pending to live" do
+      draft_ebook = create(:ebook, status: :pending)
+
+      draft_ebook.publish!
+
+      expect(draft_ebook.status).to eq("live")
     end
   end
 
@@ -60,6 +76,29 @@ RSpec.describe Ebook, type: :model do
 
       expect(result).to include(ebook1)
       expect(result).not_to include(ebook2)
+    end
+  end
+
+  describe "stats" do
+    let(:ebook) { create(:ebook) }
+
+    it "return the number of ebooks purchased" do
+      create_list(:order_item, 3, ebook: ebook)
+      create(:order_item)
+
+      expect(ebook.purchase_count).to eq(3)
+    end
+
+    it "return the number of ebooks viewed" do
+      create_list(:ebook_metric, 5, ebook: ebook, event_type: "view_ebook")
+
+      expect(ebook.view_count).to eq(5)
+    end
+
+    it "return the number of pdf views on a single ebook" do
+      create_list(:ebook_metric, 3, ebook: ebook, event_type: "view_pdf")
+
+      expect(ebook.view_pdf).to eq(3)
     end
   end
 end

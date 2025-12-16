@@ -11,6 +11,7 @@ class User < ApplicationRecord
 
     before_save { self.email = email.downcase }
     before_save :set_password_changed_at, if: :will_save_change_to_password_digest?
+    after_commit :welcome_email, on: :create
 
     validates :name, presence: true
     validates :email,
@@ -59,5 +60,9 @@ class User < ApplicationRecord
 
     def set_password_changed_at
         self.password_changed_at = Time.current
+    end
+
+    def welcome_email
+        UserMailer.welcome_email(self).deliver_later
     end
 end

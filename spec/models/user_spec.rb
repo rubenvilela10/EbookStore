@@ -63,4 +63,21 @@ RSpec.describe User, type: :model do
       expect(user.disabled?).to be true
     end
   end
+
+  include ActiveJob::TestHelper
+  describe "after commit" do
+    describe "send notifications" do
+      before do
+        ActionMailer::Base.deliveries.clear
+      end
+
+      it "sends welcome email to user on create" do
+        expect do
+          perform_enqueued_jobs do
+            create(:user)
+          end
+        end.to change { ActionMailer::Base.deliveries.count }.by(1)
+      end
+    end
+  end
 end
