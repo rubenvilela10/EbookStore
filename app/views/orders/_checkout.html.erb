@@ -1,0 +1,49 @@
+<div data-controller="modal">
+  <button
+    data-action="click->modal#open"
+    class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg cursor-pointer"
+  >
+    <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+    Buy Now
+  </button>
+
+  <div
+    data-modal-target="container"
+    class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center"
+  >
+    <div class="bg-white p-6 rounded-lg w-full max-w-md">
+      <h2 class="text-xl font-semibold mb-4">
+        Checkout
+      </h2>
+
+      <%= form_with url: orders_path, method: :post do |f| %>
+        <%= hidden_field_tag "ebook_ids[]", @ebook.id %>
+
+        <div class="mb-4">
+          <%= label_tag :billing_address, "Billing address" %>
+          <%= text_field_tag :billing_address, nil,
+                class: "w-full border rounded px-3 py-2" %>
+        </div>
+
+        <div class="mb-4">
+          <%= label_tag :destination_address, "Destination address" %>
+          <%= text_field_tag :destination_address, nil,
+                class: "w-full border rounded px-3 py-2" %>
+        </div>
+
+        <div class="flex justify-end gap-2">
+          <button
+            type="button"
+            data-action="click->modal#close"
+            class="px-4 py-2 border rounded cursor-pointer"
+          >
+            Cancel
+          </button>
+
+          <%= f.submit "Confirm order",
+                class: "px-4 py-2 bg-blue-600 text-white rounded cursor-pointer cursor-progress" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

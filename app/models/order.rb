@@ -12,4 +12,16 @@ class Order < ApplicationRecord
   validates :payment_status, inclusion: { in: STATUSES }
   validates :destination_address, presence: true
   validates :billing_address, presence: true
+
+  after_commit :send_notifications, on: :create
+
+  private
+
+  def send_notifications
+    OrderMailer.new_order_forward_buyer(self).deliver_later
+
+    order_items.includes(:ebook).each do |item|
+      OrderMailer.new_order_forward_seller(item).deliver_later
+    end
+  end
 end

@@ -19,8 +19,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    return_to = request.referer
     session[:user_id] = nil
-    redirect_to(return_to || root_path, notice: "Logged out successfully.")
+    redirect_to root_path, notice: "Logged out successfully."
   end
 end
