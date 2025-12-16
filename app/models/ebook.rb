@@ -49,7 +49,7 @@ class Ebook < ApplicationRecord
     end
 
     def submit_for_review!
-        return if status == "draft"
+        return if status == "pending"
         update!(status: "pending")
     end
 
