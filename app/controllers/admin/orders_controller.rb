@@ -28,9 +28,7 @@ class Admin::OrdersController < Admin::AdminController
     ebook_ids = Array(order_params[:ebook_ids]).reject(&:blank?).map(&:to_i)
 
     begin
-      Admin::OrderService.new(@order, request: request).new_order_transaction!(ebook_ids)
-      send_notifications(@order)
-
+      OrderService.new(@order, request: request).new_order_transaction!(ebook_ids)
       redirect_to admin_order_path(@order), notice: "Order successfully created."
 
     rescue StandardError => e
@@ -77,13 +75,5 @@ class Admin::OrdersController < Admin::AdminController
 
   def set_order
     @order = Order.find(params[:id])
-  end
-
-  def send_notifications(order)
-    OrderMailer.new_order_forward_buyer(order).deliver_later
-
-    order.order_items.includes(:ebook).each do |item|
-      OrderMailer.new_order_forward_seller(item).deliver_later
-    end
   end
 end

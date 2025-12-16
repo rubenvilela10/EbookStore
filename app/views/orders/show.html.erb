@@ -1,85 +1,88 @@
 <% content_for :title, "Order Details" %>
 
-<p class="text-green-600 mb-4"><%= notice %></p>
+<div class="max-w-7xl mx-auto py-12 px-6">
 
-<div class="bg-white shadow-lg rounded-xl p-8 border border-gray-200">
+  <p class="text-green-600 mb-4"><%= notice %></p>
 
-  <div class="flex items-center justify-between mb-6">
-    <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
-      <i data-lucide="book" class="w-7 h-7 text-green-600"></i>
-      Order Details
-    </h1>
-  </div>
+  <div class="bg-white shadow-lg rounded-xl p-8 border border-gray-200">
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Id</h2>
-      <p class="text-gray-900 font-medium"><%= @order.id %></p>
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
+        <i data-lucide="book" class="w-7 h-7 text-green-600"></i>
+        Order Details
+      </h1>
     </div>
 
-    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Buyer</h2>
-      <p class="text-gray-900 font-medium"><%= @order.buyer.name %></p>
-    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Payment Status</h2>
-      <span class="px-2 py-1 rounded bg-indigo-100 text-indigo-700 text-xs font-medium">
-        <%= @order.payment_status %>
-      </span>
-    </div>
+      <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+        <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Id</h2>
+        <p class="text-gray-900 font-medium"><%= @order.id %></p>
+      </div>
 
-    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Destination Address</h2>
-        <span class="px-2 py-1 rounded bg-gray-100 text-green-700 text-xs font-medium">
-          <%= @order.destination_address%>
+      <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+        <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Buyer</h2>
+        <p class="text-gray-900 font-medium"><%= @order.buyer.name %></p>
+      </div>
+
+      <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+        <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Payment Status</h2>
+        <span class="px-2 py-1 rounded bg-indigo-100 text-indigo-700 text-xs font-medium">
+          <%= @order.payment_status %>
         </span>
-    </div>
+      </div>
 
-    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Billing Address</h2>
-      <p class="text-gray-900 font-medium">
-        <%= @order.billing_address %>
-      </p>
-    </div>
+      <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+        <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Destination Address</h2>
+          <span class="px-2 py-1 rounded bg-gray-100 text-green-700 text-xs font-medium">
+            <%= @order.destination_address%>
+          </span>
+      </div>
 
-    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-      <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Placed On</h2>
-      <p class="text-gray-900 font-medium"><%= @order.created_at.strftime("%d %m %Y") %></p>
-    </div>
+      <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+        <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Billing Address</h2>
+        <p class="text-gray-900 font-medium">
+          <%= @order.billing_address %>
+        </p>
+      </div>
 
-  </div>
-  <table class="min-w-full text-left text-sm text-gray-600 mt-10">
-    <thead class="bg-gray-100 text-gray-700 uppercase text-xs border-b">
-      <tr>
-        <th class="px-6 py-3">Ebook</th>
-        <th class="px-6 py-3">Price</th>
-        <th class="px-6 py-3">Seller</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @order.order_items.each do |order| %>
-        <tr class="border-b hover:bg-gray-50 transition">
-            <td class="px-6 py-3 font-medium text-gray-900"><%= order.ebook.title %></td>
-            <td class="px-6 py-3 font-medium text-gray-900"><%= order.price %></td>
-            <td class="px-6 py-3 font-medium text-gray-900"><%= order.ebook.seller.name %></td>
+      <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+        <h2 class="text-gray-500 text-sm uppercase font-semibold mb-1">Placed On</h2>
+        <p class="text-gray-900 font-medium"><%= @order.created_at.strftime("%d %m %Y") %></p>
+      </div>
+
+    </div>
+    <table class="min-w-full text-left text-sm text-gray-600 mt-10">
+      <thead class="bg-gray-100 text-gray-700 uppercase text-xs border-b">
+        <tr>
+          <th class="px-6 py-3">Ebook</th>
+          <th class="px-6 py-3">Price</th>
+          <th class="px-6 py-3">Seller</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+      </thead>
+      <tbody>
+        <% @order.order_items.each do |order| %>
+          <tr class="border-b hover:bg-gray-50 transition">
+              <td class="px-6 py-3 font-medium text-gray-900"><%= order.ebook.title %></td>
+              <td class="px-6 py-3 font-medium text-gray-900"><%= order.price %></td>
+              <td class="px-6 py-3 font-medium text-gray-900"><%= order.ebook.seller.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
-<div class="flex items-center justify-between mt-8">
-  <%= link_to admin_orders_path,
-      class: "inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition" do %>
-    <i data-lucide="arrow-left" class="w-4 h-4"></i>
-    Back to orders
-  <% end %>
-  <%= link_to admin_order_path(@order),
-        data: { turbo_method: "delete", turbo_confirm: "Are you sure?" },
-        class: "inline-flex items-center gap-1 text-red-600 hover:text-red-800 transition" do %>
-    <i data-lucide="trash-2" class="w-5 h-5"></i>
-    Delete order
-  <% end %>
+  <div class="flex items-center justify-between mt-8">
+    <%= link_to admin_orders_path,
+        class: "inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition" do %>
+      <i data-lucide="arrow-left" class="w-4 h-4"></i>
+      Back to orders
+    <% end %>
+    <%= link_to admin_order_path(@order),
+          data: { turbo_method: "delete", turbo_confirm: "Are you sure?" },
+          class: "inline-flex items-center gap-1 text-red-600 hover:text-red-800 transition" do %>
+      <i data-lucide="trash-2" class="w-5 h-5"></i>
+      Delete order
+    <% end %>
+  </div>
 </div>

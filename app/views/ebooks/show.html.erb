@@ -54,11 +54,7 @@
             </span>
           </div>
 
-          <%= link_to "#",
-                class: "inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition" do %>
-                <i data-lucide="shopping-cart" class="w-5 h-5"></i>
-                Buy Now
-          <% end %>
+          <%= render "orders/checkout" %>
         </div>
       </div>
 

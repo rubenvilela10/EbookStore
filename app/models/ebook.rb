@@ -44,13 +44,13 @@ class Ebook < ApplicationRecord
     end
 
     def publish!
-        return if live
-        update!(status: Ebook::STATUSES[2])
+        return if status == "live"
+        update!(status: "live")
     end
 
     def submit_for_review!
-        return if draft
-        update!(status: Ebook::STATUSES[1])
+        return if status == "draft"
+        update!(status: "pending")
     end
 
     private
