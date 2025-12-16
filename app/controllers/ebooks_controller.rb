@@ -66,7 +66,7 @@ class EbooksController < ApplicationController
     set_ebook
 
     unless @ebook.pdf_draft.attached?
-      redirect_to @ebook, notice: "No pdf available for download!"
+      redirect_to @ebook, notice: "No pdf available for download!" and return
     end
 
     EbookMetric.create!(
