@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :ebook_metric do
-     { event_type: "view_pdf" }
-     { ip: "8.8.8.8" }
-     { extra_data: "" }
-
-     association :ebook, factory: :ebook
+    association :ebook
+    event_type { "view_pdf" }
+    extra_data { {} }
+    ip { "127.0.0.1" }
+    user_agent { "RSpec" }
   end
 end

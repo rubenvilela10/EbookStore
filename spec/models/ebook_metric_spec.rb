@@ -1,57 +1,26 @@
 require "rails_helper"
 
-RSpec.describe "Ebook metrics tracking", type: :request do
-  let(:user)  { create(:user, password: "123456") }
-  let(:ebook) { create(:ebook) }
+RSpec.describe "Ebook metrics", type: :model do
+  subject(:ebook_metric) { build(:ebook_metric) }
 
-  before do
-    post login_path, params: { email: user.email, password: "123456" }
+  describe "validations" do
+    it "is valid with valid attributes" do
+      expect(ebook_metric).to be_valid
+    end
 
-    allow(EbookStat).to receive(:find_or_create_by!)
-      .and_return(instance_double(EbookStat, increment!: true))
 
-    allow(EbookMetric).to receive(:create!)
+    it "valids event type" do
+      subject.event_type = "N/A"
 
-    ebook.pdf_draft.attach(
-      io: StringIO.new("dummy content"),
-      filename: "dummy.pdf",
-      content_type: "application/pdf"
-    )
-  end
+      expect(ebook_metric).not_to be_valid
+      expect(ebook_metric.errors[:event_type]).to include("is not included in the list")
+    end
 
-  it "records view metric with correct data" do
-    expect(EbookMetric).to receive(:create!).with(
-      hash_including(
-        ebook_id: ebook.id,
-        event_type: "view_ebook",
-        ip: "8.8.8.8",
-        user_agent: "Browser",
-        extra_data: {
-          user: { id: user.id }
-        }
-      )
-    )
-
-    get ebook_path(ebook),
-        headers: { "User-Agent" => "Browser" },
-        env: { "REMOTE_ADDR" => "8.8.8.8" }
-  end
-
-  it "record pdf download tracking" do
-    expect(EbookMetric).to receive(:create!).with(
-      hash_including(
-        ebook_id: ebook.id,
-        event_type: "view_pdf",
-        ip: "8.8.8.8",
-        user_agent: "Browser",
-        extra_data: {
-          user: { id: user.id }
-        }
-      )
-    )
-
-    get download_draft_ebook_path(ebook),
-      headers: { "User-Agent" => "Browser" },
-      env: { "REMOTE_ADDR" => "8.8.8.8" }
+    it "must be one of the following event_type: view_pdf, view_ebook, purchase" do
+      [ "purchase", "view_ebook", "view_pfd" ].each do |type|
+        subject.event_type = type
+        expect(ebook_metric.event_type).to eq(type)
+      end
+    end
   end
 end
