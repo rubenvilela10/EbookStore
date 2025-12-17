@@ -1,26 +1,30 @@
 FactoryBot.define do
   factory :user do
-    name { "John Doe" }
-    role { "seller" }
+    name { Faker::Name.name }
     age { 21 }
-    phone_number { "912345678" }
-    sequence(:email) { |n| "johndoe#{n}@email.com" }
+    role { :buyer }
+    phone_number { "+351912345678" }
+    sequence(:email) { |n| "user#{n}@email.com" }
     address { "street" }
-    country { "country" }
-    status { "enabled" }
+    country { "PT" }
+    status { :enabled }
     password { "123456" }
-  end
 
-  factory :buyer do
-    name { "Marie Doe" }
-    role { "buyer" }
-    balance { 1000 }
-    age { 21 }
-    phone_number { "912345678" }
-    sequence(:email) { |n| "mariedoe#{n}@email.com" }
-    address { "street" }
-    country { "country" }
-    status { "enabled" }
-    password { "123456" }
+    trait :seller do
+      role { :seller }
+    end
+
+    trait :buyer do
+      role { :buyer }
+      balance { 1000 }
+    end
+
+    trait :disabled do
+      status { :disabled }
+    end
+
+    trait :enabled do
+      status { :enabled }
+    end
   end
 end

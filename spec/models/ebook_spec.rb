@@ -39,15 +39,15 @@ RSpec.describe Ebook, type: :model do
 
   describe 'status' do
     it 'returns only live ebooks' do
-      draft_ebook = create(:ebook, status: :draft)
-      live_ebook  = create(:ebook, status: :live)
+      draft_ebook = create(:ebook, :draft)
+      live_ebook  = create(:ebook, :live)
 
       expect(Ebook.live).to include(live_ebook)
       expect(Ebook.live).not_to include(draft_ebook)
     end
 
     it "should change status from draft to pending" do
-      draft_ebook = create(:ebook, status: :draft)
+      draft_ebook = create(:ebook, :draft)
 
       draft_ebook.submit_for_review!
 
@@ -55,7 +55,7 @@ RSpec.describe Ebook, type: :model do
     end
 
     it "should change status pending to live" do
-      draft_ebook = create(:ebook, status: :pending)
+      draft_ebook = create(:ebook, :pending)
 
       draft_ebook.publish!
 
