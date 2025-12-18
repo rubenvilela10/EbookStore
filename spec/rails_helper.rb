@@ -80,4 +80,9 @@ RSpec.configure do |config|
   end
 
   Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+
+  RSpec.configure do |config|
+    config.include_context "authenticate admin", :authenticate_admin
+    config.include_context "authenticate seller", :authenticate_seller
+  end
 end

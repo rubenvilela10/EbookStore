@@ -1,16 +1,19 @@
-RSpec.shared_context "authenticate user" do
-  let(:current_user) { create(:user) }
+RSpec.shared_context "authenticate admin", :authenticate_admin do
+  let(:current_user) { create(:user, :admin) }
 
+  # mock - is this right?
   before do
-    login(current_user)
+    allow_any_instance_of(ApplicationController)
+      .to receive(:current_user).and_return(current_user)
   end
 end
 
-RSpec.shared_context "authenticated seller" do
+RSpec.shared_context "authenticate seller", :authenticate_seller do
   let(:current_user) { create(:user, :seller) }
-  let!(:seller_ebooks) { create_list(:ebook, 3, seller: current_user) }
 
+  # mock - is this right?
   before do
-    login(current_user)
+    allow_any_instance_of(ApplicationController)
+      .to receive(:current_user).and_return(current_user)
   end
 end
