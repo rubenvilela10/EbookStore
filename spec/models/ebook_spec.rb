@@ -2,6 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Ebook, type: :model do
   subject(:ebook) { build(:ebook) }
+  it_behaves_like "a model with status"
+  it_behaves_like "a model with timestamps"
+  it_behaves_like "a publishable resource"
 
   describe "validations" do
     it "is valid with valid attributes" do

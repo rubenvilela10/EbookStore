@@ -1,6 +1,7 @@
 require "rails_helper"
 
 RSpec.describe OrderItem, type: :model do
+  it_behaves_like "a model with timestamps"
   describe "associations" do
     it { should belong_to(:order) }
     it { should belong_to(:ebook) }

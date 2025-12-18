@@ -4,6 +4,8 @@ RSpec.describe User, type: :model do
   include ActiveJob::TestHelper
 
   subject(:user) { build(:user) }
+  it_behaves_like "a model with status"
+  it_behaves_like "a model with timestamps"
 
   describe "validations" do
     it "is valid with valid attributes" do

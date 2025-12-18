@@ -2,6 +2,7 @@ require "rails_helper"
 
 RSpec.describe Order, type: :model do
   include ActiveJob::TestHelper
+  it_behaves_like "a model with timestamps"
 
   describe "after commit" do
     describe "send notifications" do
