@@ -81,7 +81,7 @@ RSpec.describe Ebook, type: :model do
 
     it "returns the number of ebooks purchased" do
       create_list(:order_item, 3, ebook: ebook)
-      create(:order_item) # outro ebook
+      create(:order_item)
 
       expect(ebook.purchase_count).to eq(3)
     end
