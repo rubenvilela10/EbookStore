@@ -20,3 +20,9 @@ AllCops:
 
 Rails:
   Enabled: true
+
+RSpec:
+  Enabled: true
+
+Rails/SkipsModelValidations:
+  Enabled: false
