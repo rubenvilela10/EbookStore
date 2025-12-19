@@ -23,7 +23,7 @@ jobs:
       - name: Precompile assets
         run: bin/rails assets:precompile RAILS_ENV=test
 
-      - name: Run RSpec tests
+      - name: Run RSpec tests with SimpleCov
         run: bundle exec rspec --format documentation --format RspecJunitFormatter --out tmp/rspec/rspec.xml
 
       - name: Upload RSpec test results
@@ -31,6 +31,12 @@ jobs:
         with:
           name: rspec-results
           path: tmp/rspec/rspec.xml
+
+      - name: Upload SimpleCov coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
 
       - name: Run RuboCop
         run: bundle exec rubocop --display-cop-names --format simple
