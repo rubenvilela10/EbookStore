@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe "Admin::Ebooks", type: :request do
+RSpec.describe "Admin::Ebooks", type: :request do # rubocop:disable RSpec/MultipleDescribes
   describe "GET #edit" do
-    context "no user logged in" do
+    context "when no user logged in" do
       let(:ebook) { build(:ebook) }
 
       before do
@@ -12,10 +12,10 @@ RSpec.describe "Admin::Ebooks", type: :request do
       it_behaves_like "requires authentication"
     end
 
-    context "no admin user logged in" do
+    context "when no admin user logged in" do
       let(:ebook) { build(:ebook) }
 
-      include_context "authenticate seller"
+      include_context "when authenticate seller"
 
       before do
         get edit_admin_ebook_path(:ebook)
@@ -41,7 +41,7 @@ RSpec.describe "Admin::Ebooks", :authenticate_seller, type: :request do
   let(:ebook) { create(:ebook) }
 
   describe "GET #edit" do
-    it "redirects non-admin seller to root" do
+    it "redirects non-admin seller to root" do # rubocop:disable RSpec/MultipleExpectations
       get edit_admin_ebook_path(ebook)
       expect(response).to redirect_to(root_path)
       expect(flash[:alert]).to eq("Access Denied!")

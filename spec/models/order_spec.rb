@@ -5,7 +5,7 @@ RSpec.describe Order, type: :model do
   it_behaves_like "a model with timestamps"
 
   describe "after commit notifications" do
-    include_context "order setup"
+    include_context "when order setup"
 
     it "sends emails to buyer and seller on create" do
       expect do
@@ -15,7 +15,7 @@ RSpec.describe Order, type: :model do
       end.to change { ActionMailer::Base.deliveries.count }.by(3) # 1 more due to welcome email when creating a buyer
     end
 
-    context "mocked mailers" do
+    context "when mocked mailers" do
       let!(:buyer_mailer)  { instance_double(ActionMailer::MessageDelivery) }
       let!(:seller_mailer) { instance_double(ActionMailer::MessageDelivery) }
 
@@ -26,21 +26,26 @@ RSpec.describe Order, type: :model do
         allow(seller_mailer).to receive(:deliver_later)
       end
 
-      it "calls email mailers when order is created" do
-        expect(OrderMailer).to receive(:new_order_forward_buyer).with(instance_of(described_class))
-        expect(OrderMailer).to receive(:new_order_forward_seller).with(instance_of(OrderItem))
+      it "calls buyer email when order is created" do
+        expect(OrderMailer).to receive(:new_order_forward_buyer).with(instance_of(described_class)) # rubocop:disable RSpec/MessageSpies
 
         order
       end
 
-      it "calls mailer with correct buyer, seller and ebook" do
-        expect(OrderMailer).to receive(:new_order_forward_buyer) do |order|
+      it "calls seller email when order is created" do
+        expect(OrderMailer).to receive(:new_order_forward_seller).with(instance_of(OrderItem)) # rubocop:disable RSpec/MessageSpies
+
+        order
+      end
+
+      it "calls mailer with correct buyer, seller and ebook" do # rubocop:disable RSpec/ExampleLength,RSpec/MultipleExpectations
+        expect(OrderMailer).to receive(:new_order_forward_buyer) do |order| # rubocop:disable RSpec/MessageSpies
           expect(order.buyer).to eq(buyer)
           expect(order.order_items.first.ebook).to eq(ebook)
           buyer_mailer
         end
 
-        expect(OrderMailer).to receive(:new_order_forward_seller) do |order_item|
+        expect(OrderMailer).to receive(:new_order_forward_seller) do |order_item| # rubocop:disable RSpec/MessageSpies
           expect(order_item.ebook).to eq(ebook)
           expect(order_item.ebook.seller).to eq(seller)
           seller_mailer

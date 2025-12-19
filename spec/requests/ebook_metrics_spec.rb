@@ -1,8 +1,8 @@
 require "rails_helper"
 
 RSpec.describe "Ebook metrics tracking", type: :request do
-  include_context "authenticate admin"
-  include_context "ebook metrics setup"
+  include_context "when authenticate admin"
+  include_context "when ebook metrics setup"
 
   describe "ebook page view" do
     it_behaves_like "records ebook metric",

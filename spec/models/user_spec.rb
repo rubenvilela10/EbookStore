@@ -13,28 +13,28 @@ RSpec.describe User, type: :model do
       expect(user).to be_valid
     end
 
-    it "is invalid without a name" do
+    it "is invalid without a name" do # rubocop:disable RSpec/MultipleExpectations
       user.name = nil
 
       expect(user).not_to be_valid
       expect(user.errors[:name]).to include("can't be blank")
     end
 
-    it "is invalid without an email" do
+    it "is invalid without an email" do # rubocop:disable RSpec/MultipleExpectations
       user.email = nil
 
       expect(user).not_to be_valid
       expect(user.errors[:email]).to include("can't be blank")
     end
 
-    it "is invalid with an invalid email format" do
+    it "is invalid with an invalid email format" do # rubocop:disable RSpec/MultipleExpectations
       user.email = "invalid-email"
 
       expect(user).not_to be_valid
       expect(user.errors[:email]).to be_present
     end
 
-    it "does not allow duplicate emails" do
+    it "does not allow duplicate emails" do # rubocop:disable RSpec/MultipleExpectations
       create(:user, email: user.email)
 
       expect(user).not_to be_valid
@@ -47,7 +47,7 @@ RSpec.describe User, type: :model do
       expect(created_user.email).to eq("test@email.com")
     end
 
-    it "is invalid without a password" do
+    it "is invalid without a password" do # rubocop:disable RSpec/MultipleExpectations
       user.password = nil
 
       expect(user).not_to be_valid
@@ -90,7 +90,7 @@ RSpec.describe User, type: :model do
       ActionMailer::Base.deliveries.clear
     end
 
-    it "sends welcome email to user on create" do
+    it "sends welcome email to user on create" do # rubocop:disable RSpec/ExampleLength,RSpec/MultipleExpectations
       expect do
         perform_enqueued_jobs do
           create(:user, :enabled, :seller)

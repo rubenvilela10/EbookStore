@@ -3,8 +3,8 @@ class User < ApplicationRecord
     STATUSES  = %w[enabled disabled].freeze
     VALID_EMAIL_REGEX = /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/
 
-    has_many :ebooks, foreign_key: "seller_id", dependent: :nullify
-    has_many :orders, foreign_key: "buyer_id", dependent: :nullify
+    has_many :ebooks, foreign_key: "seller_id", dependent: :nullify # rubocop:disable Rails/InverseOf
+    has_many :orders, foreign_key: "buyer_id", dependent: :nullify # rubocop:disable Rails/InverseOf
     has_many :order_items, through: :orders
 
     has_one_attached :profile_pic
