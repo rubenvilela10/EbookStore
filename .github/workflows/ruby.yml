@@ -1,4 +1,4 @@
-name: My workflow
+name: Ruby
 on: [push, pull_request]
 jobs:
   test:
@@ -9,4 +9,21 @@ jobs:
       with:
         ruby-version: '3.4' # Not needed with a .ruby-version, .tool-versions or mise.toml
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-    - run: bundle exec rspec
+    
+    - name: Install dependencies
+      run: bundle install --jobs 4 --retry 3
+
+    - name: Set up database
+      run: |
+        bin/rails db:create db:schema:load RAILS_ENV=test
+
+    - name: Precompile assets
+      run: bin/rails assets:precompile RAILS_ENV=test
+    
+    - run: bundle exec rspec --format documentation --format RspecJunitFormatter --out tmp/rspec/rspec.xml
+
+    - name: Upload Rspec test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: rspec-results
+        path: tmp/rspec/rspec.xml
