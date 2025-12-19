@@ -28,7 +28,9 @@ class Admin::AdminController < ApplicationController
   private
 
   def authenticate_admin!
-    unless current_user&.admin?
+    if current_user.nil?
+      redirect_to login_path, alert: "Please login!"
+    elsif !current_user.admin?
       redirect_to root_path, alert: "Access Denied!"
     end
   end

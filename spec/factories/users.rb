@@ -19,6 +19,10 @@ FactoryBot.define do
       balance { 1000 }
     end
 
+    trait :admin do
+      role { :admin }
+    end
+
     trait :disabled do
       status { :disabled }
     end
