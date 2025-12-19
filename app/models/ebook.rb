@@ -56,7 +56,7 @@ class Ebook < ApplicationRecord
     private
 
     def assign_tags
-        return unless tag_list.present?
+        return if tag_list.blank?
 
         names = tag_list.split(",").map(&:strip).reject(&:empty?)
 

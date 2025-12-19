@@ -20,7 +20,7 @@ class Order < ApplicationRecord
   def send_notifications
     OrderMailer.new_order_forward_buyer(self).deliver_later
 
-    order_items.includes(:ebook).each do |item|
+    order_items.includes(:ebook).find_each do |item|
       OrderMailer.new_order_forward_seller(item).deliver_later
     end
   end

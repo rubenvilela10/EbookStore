@@ -3,13 +3,13 @@ require "rails_helper"
 RSpec.describe OrderItem, type: :model do
   it_behaves_like "a model with timestamps"
   describe "associations" do
-    it { should belong_to(:order) }
-    it { should belong_to(:ebook) }
+    it { is_expected.to belong_to(:order) }
+    it { is_expected.to belong_to(:ebook) }
   end
 
   describe "validations" do
-    it { should validate_numericality_of(:price).is_greater_than_or_equal_to(0) }
-    it { should validate_numericality_of(:fee).is_greater_than_or_equal_to(0) }
+    it { is_expected.to validate_numericality_of(:price).is_greater_than_or_equal_to(0) }
+    it { is_expected.to validate_numericality_of(:fee).is_greater_than_or_equal_to(0) }
   end
 
   describe "before_validation :assign_price_and_fee" do

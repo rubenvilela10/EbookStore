@@ -5,9 +5,9 @@ RSpec.describe User, type: :request do
 
   describe "find user stub" do
     it "returns the user" do
-      allow(User).to receive(:find).with(1).and_return(:user)
+      allow(described_class).to receive(:find).with(1).and_return(:user)
 
-      result = User.find(1)
+      result = described_class.find(1)
 
       expect(result).to eq(:user)
     end

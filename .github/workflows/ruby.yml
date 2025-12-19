@@ -31,3 +31,6 @@ jobs:
         with:
           name: rspec-results
           path: tmp/rspec/rspec.xml
+
+      - name: Run RuboCop
+        run: bundle exec rubocop --display-cop-names --format simple

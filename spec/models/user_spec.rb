@@ -4,6 +4,7 @@ RSpec.describe User, type: :model do
   include ActiveJob::TestHelper
 
   subject(:user) { build(:user) }
+
   it_behaves_like "a model with status"
   it_behaves_like "a model with timestamps"
 
@@ -97,7 +98,7 @@ RSpec.describe User, type: :model do
       end.to change { ActionMailer::Base.deliveries.count }.by(1)
 
       mail = ActionMailer::Base.deliveries.last
-      expect(mail.to).to include(User.last.email)
+      expect(mail.to).to include(described_class.last.email)
     end
   end
 end

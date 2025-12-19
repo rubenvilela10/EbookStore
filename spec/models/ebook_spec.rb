@@ -46,8 +46,8 @@ RSpec.describe Ebook, type: :model do
       draft_ebook = draft_ebooks.first
       live_ebook  = live_ebooks.first
 
-      expect(Ebook.live).to include(live_ebook)
-      expect(Ebook.live).not_to include(draft_ebook)
+      expect(described_class.live).to include(live_ebook)
+      expect(described_class.live).not_to include(draft_ebook)
     end
 
     it "changes draft to pending" do
@@ -71,8 +71,8 @@ RSpec.describe Ebook, type: :model do
       ebook1 = create(:ebook, seller: s1)
       ebook2 = create(:ebook, seller: s2)
 
-      expect(Ebook.by_seller(s1)).to include(ebook1)
-      expect(Ebook.by_seller(s1)).not_to include(ebook2)
+      expect(described_class.by_seller(s1)).to include(ebook1)
+      expect(described_class.by_seller(s1)).not_to include(ebook2)
     end
   end
 

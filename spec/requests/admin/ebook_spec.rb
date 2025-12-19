@@ -14,6 +14,7 @@ RSpec.describe "Admin::Ebooks", type: :request do
 
     context "no admin user logged in" do
       let(:ebook) { build(:ebook) }
+
       include_context "authenticate seller"
 
       before do
@@ -25,7 +26,7 @@ RSpec.describe "Admin::Ebooks", type: :request do
   end
 end
 
-RSpec.describe "Admin::Ebooks", type: :request, authenticate_admin: true do
+RSpec.describe "Admin::Ebooks", :authenticate_admin, type: :request do
   let(:ebook) { create(:ebook) }
 
   describe "GET #edit" do
@@ -36,7 +37,7 @@ RSpec.describe "Admin::Ebooks", type: :request, authenticate_admin: true do
   end
 end
 
-RSpec.describe "Admin::Ebooks", type: :request, authenticate_seller: true do
+RSpec.describe "Admin::Ebooks", :authenticate_seller, type: :request do
   let(:ebook) { create(:ebook) }
 
   describe "GET #edit" do

@@ -2,6 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Ebook metrics", type: :model do
   subject(:ebook_metric) { build(:ebook_metric) }
+
   it_behaves_like "a model with timestamps"
 
   describe "validations" do

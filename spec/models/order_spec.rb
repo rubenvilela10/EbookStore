@@ -20,15 +20,14 @@ RSpec.describe Order, type: :model do
       let!(:seller_mailer) { instance_double(ActionMailer::MessageDelivery) }
 
       before do
-        allow(OrderMailer).to receive(:new_order_forward_buyer).and_return(buyer_mailer)
-        allow(OrderMailer).to receive(:new_order_forward_seller).and_return(seller_mailer)
+        allow(OrderMailer).to receive_messages(new_order_forward_buyer: buyer_mailer, new_order_forward_seller: seller_mailer)
 
         allow(buyer_mailer).to receive(:deliver_later)
         allow(seller_mailer).to receive(:deliver_later)
       end
 
       it "calls email mailers when order is created" do
-        expect(OrderMailer).to receive(:new_order_forward_buyer).with(instance_of(Order))
+        expect(OrderMailer).to receive(:new_order_forward_buyer).with(instance_of(described_class))
         expect(OrderMailer).to receive(:new_order_forward_seller).with(instance_of(OrderItem))
 
         order
