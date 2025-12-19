@@ -59,6 +59,7 @@ group :development do
   gem "web-console"
   gem "rspec-rails"
   gem "factory_bot_rails"
+  gem 'rspec_junit_formatter'
 end
 
 group :test do
@@ -69,6 +70,7 @@ group :test do
   gem "factory_bot_rails"
   gem "shoulda-matchers"
   gem "faker"
+  gem 'rspec_junit_formatter'
 end
 
 gem "tailwindcss-rails", "~> 4.4"
