@@ -11,7 +11,6 @@ RSpec.shared_examples "records ebook metric" do |event_type:, request:|
         }
       )
     )
-
     instance_exec(&request)
   end
 end

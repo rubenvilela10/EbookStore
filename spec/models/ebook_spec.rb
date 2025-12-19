@@ -12,24 +12,28 @@ RSpec.describe Ebook, type: :model do
       expect(ebook).to be_valid
     end
 
-    it "is invalid without a title" do
+    it "is invalid without a title" do # rubocop:disable RSpec/MultipleExpectations
       ebook.title = nil
       expect(ebook).not_to be_valid
+      expect(ebook.errors[:title]).to include("can't be blank")
     end
 
-    it "is invalid with a negative price" do
+    it "is invalid with a negative price" do # rubocop:disable RSpec/MultipleExpectations
       ebook.price = -1
       expect(ebook).not_to be_valid
+      expect(ebook.errors[:price]).to include("must be greater than or equal to 0")
     end
 
-    it "is invalid without an author" do
+    it "is invalid without an author" do # rubocop:disable RSpec/MultipleExpectations
       ebook.author = nil
       expect(ebook).not_to be_valid
+      expect(ebook.errors[:author]).to include("can't be blank")
     end
 
-    it "must be one of the following status: draft, pending, live" do
+    it "must be one of the following status: draft, pending, live" do # rubocop:disable RSpec/MultipleExpectations
       ebook.status = "N/A"
       expect(ebook).not_to be_valid
+      expect(ebook.errors[:status]).to include("is not included in the list")
     end
   end
 
