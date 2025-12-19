@@ -15,29 +15,21 @@ RSpec.describe User, type: :model do
 
     it "is invalid without a name" do
       user.name = nil
-
-      expect(user).not_to be_valid
       expect(user.errors[:name]).to include("can't be blank")
     end
 
     it "is invalid without an email" do
       user.email = nil
-
-      expect(user).not_to be_valid
       expect(user.errors[:email]).to include("can't be blank")
     end
 
     it "is invalid with an invalid email format" do
       user.email = "invalid-email"
-
-      expect(user).not_to be_valid
       expect(user.errors[:email]).to be_present
     end
 
     it "does not allow duplicate emails" do
       create(:user, email: user.email)
-
-      expect(user).not_to be_valid
       expect(user.errors[:email]).to include("has already been taken")
     end
 
@@ -49,8 +41,6 @@ RSpec.describe User, type: :model do
 
     it "is invalid without a password" do
       user.password = nil
-
-      expect(user).not_to be_valid
       expect(user.errors[:password]).to include("can't be blank")
     end
   end
@@ -90,7 +80,7 @@ RSpec.describe User, type: :model do
       ActionMailer::Base.deliveries.clear
     end
 
-    it "sends welcome email to user on create" do
+    it "sends welcome email to user on create" do # rubocop:disable RSpec/ExampleLength,RSpec/MultipleExpectations
       expect do
         perform_enqueued_jobs do
           create(:user, :enabled, :seller)

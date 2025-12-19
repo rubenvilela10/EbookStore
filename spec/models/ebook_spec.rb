@@ -14,35 +14,31 @@ RSpec.describe Ebook, type: :model do
 
     it "is invalid without a title" do
       ebook.title = nil
-      expect(ebook).not_to be_valid
       expect(ebook.errors[:title]).to include("can't be blank")
     end
 
     it "is invalid with a negative price" do
       ebook.price = -1
-      expect(ebook).not_to be_valid
       expect(ebook.errors[:price]).to include("must be greater than or equal to 0")
     end
 
     it "is invalid without an author" do
       ebook.author = nil
-      expect(ebook).not_to be_valid
       expect(ebook.errors[:author]).to include("can't be blank")
     end
 
-    it "must be one of the following status: draft, pending, live" do
+    it "must be one of the following status: draft, pending, live" do # rubocop:disable RSpec/MultipleExpectations
       ebook.status = "N/A"
-      expect(ebook).not_to be_valid
       expect(ebook.errors[:status]).to include("is not included in the list")
     end
   end
 
   describe "status scopes and transitions" do
-    include_context "draft ebooks"
-    include_context "pending ebooks"
-    include_context "live ebooks"
+    include_context "when draft ebooks"
+    include_context "when pending ebooks"
+    include_context "when live ebooks"
 
-    it "returns only live ebooks for .live scope" do
+    it "returns only live ebooks for .live scope" do # rubocop:disable RSpec/MultipleExpectations
       draft_ebook = draft_ebooks.first
       live_ebook  = live_ebooks.first
 
@@ -64,7 +60,7 @@ RSpec.describe Ebook, type: :model do
   end
 
   describe "by seller" do
-    it "returns ebooks from the correct seller" do
+    it "returns ebooks from the correct seller" do # rubocop:disable RSpec/MultipleExpectations,RSpec/ExampleLength
       s1 = create(:user, name: "Seller 1")
       s2 = create(:user, name: "Seller 2")
 

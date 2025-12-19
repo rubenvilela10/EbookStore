@@ -1,4 +1,4 @@
-RSpec.shared_context "order setup" do
+RSpec.shared_context "when order setup" do
   let(:seller) { create(:user, :seller) }
   let(:buyer)  { create(:user, :buyer, balance: 100) }
   let!(:ebook) { create(:ebook, :live, seller: seller) }

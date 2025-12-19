@@ -1,4 +1,4 @@
-RSpec.shared_context "ebook metrics setup" do
+RSpec.shared_context "when ebook metrics setup" do
   let(:ebook) { create(:ebook) }
 
   before do

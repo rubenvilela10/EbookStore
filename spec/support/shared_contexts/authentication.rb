@@ -1,19 +1,19 @@
-RSpec.shared_context "authenticate admin", :authenticate_admin do
+RSpec.shared_context "when authenticate admin", :authenticate_admin do
   let(:current_user) { create(:user, :admin) }
 
   # mock - is this right?
   before do
-    allow_any_instance_of(ApplicationController)
+    allow_any_instance_of(ApplicationController) # rubocop:disable RSpec/AnyInstance
       .to receive(:current_user).and_return(current_user)
   end
 end
 
-RSpec.shared_context "authenticate seller", :authenticate_seller do
+RSpec.shared_context "when authenticate seller", :authenticate_seller do
   let(:current_user) { create(:user, :seller) }
 
   # mock - is this right?
   before do
-    allow_any_instance_of(ApplicationController)
+    allow_any_instance_of(ApplicationController) # rubocop:disable RSpec/AnyInstance
       .to receive(:current_user).and_return(current_user)
   end
 end

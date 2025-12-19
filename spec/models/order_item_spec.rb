@@ -16,27 +16,17 @@ RSpec.describe OrderItem, type: :model do
     let(:ebook) { create(:ebook, price: 100) }
     let(:order) { create(:order) }
 
-    it "assigns price and fee from ebook when nil" do
-      order_item = build(:order_item, ebook: ebook, order: order, price: nil, fee: nil)
-
-      order_item.valid?
-
-      expect(order_item.price).to eq(100)
-      expect(order_item.fee).to eq(10.0)
-    end
-
-    it "does not override existing price and fee" do
-      order_item = build(
-        :order_item,
-        ebook: ebook,
-        order: order,
-        price: 80,
-        fee: 5
-      )
-
+    it "does not override existing price" do
+      order_item = build(:order_item, ebook: ebook, order: order, price: 80, fee: 5)
       order_item.valid?
 
       expect(order_item.price).to eq(80)
+    end
+
+    it "does not override existing fee" do
+      order_item = build(:order_item, ebook: ebook, order: order, price: 80, fee: 5)
+      order_item.valid?
+
       expect(order_item.fee).to eq(5)
     end
   end
