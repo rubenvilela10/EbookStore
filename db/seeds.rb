@@ -16,9 +16,9 @@ landing_page.landing_sections.create!(title: "Section 1", content: "Content for 
 landing_page.landing_sections.create!(title: "Section 2", content: "Content for section 2")
 
 # Users
-User.first_or_create!(name: "Admin", email: "admin@example.com", age: 30, address: "123 Admin St", country: "US", status: "enabled", role: "admin", password: "password")
-seller = User.first_or_create!(name: "Seller", email: "seller@example.com", age: 28, address: "456 Seller St", country: "US", status: "enabled", role: "seller", password: "password")
-User.first_or_create!(name: "Buyer", email: "buyer@example.com", age: 25, address: "789 Buyer St", country: "US", status: "enabled", role: "buyer", password: "password")
+User.first_or_create!(name: "Admin", email: "admin@example.com", age: 30, address: "123 Admin St", country: "US", status: "enabled", phone_number: "912345678", role: "admin", password: "password")
+seller = User.first_or_create!(name: "Seller", email: "seller@example.com", age: 28, address: "456 Seller St", country: "US", status: "enabled", phone_number: "912345677", role: "seller", password: "password")
+User.first_or_create!(name: "Buyer", email: "buyer@example.com", age: 25, address: "789 Buyer St", country: "US", status: "enabled", phone_number: "912345676", role: "buyer", password: "password")
 
 # Ebooks
 3.times do |i|
