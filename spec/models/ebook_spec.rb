@@ -42,24 +42,23 @@ RSpec.describe Ebook, type: :model do
     include_context "when pending ebooks"
     include_context "when live ebooks"
 
-    it "returns only live ebooks for .live scope" do # rubocop:disable RSpec/MultipleExpectations
-      draft_ebook = draft_ebooks.first
-      live_ebook  = live_ebooks.first
+    let(:draft_ebook) { draft_ebooks.first }
+    let(:live_ebook) { live_ebooks.first }
+    let(:pending_ebook) { pending_ebooks.first }
 
+    it "returns only live ebooks for .live scope" do # rubocop:disable RSpec/MultipleExpectations
       expect(described_class.live).to include(live_ebook)
       expect(described_class.live).not_to include(draft_ebook)
     end
 
     it "changes draft to pending" do
-      draft = draft_ebooks.first
-      draft.submit_for_review!
-      expect(draft.status).to eq("pending")
+      draft_ebook.submit_for_review!
+      expect(draft_ebook.status).to eq("pending")
     end
 
     it "changes pending to live" do
-      pending = pending_ebooks.first
-      pending.publish!
-      expect(pending.status).to eq("live")
+      pending_ebook.publish!
+      expect(pending_ebook.status).to eq("live")
     end
   end
 
