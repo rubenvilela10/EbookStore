@@ -27,6 +27,7 @@ User.first_or_create!(name: "Buyer", email: "buyer@example.com", age: 25, addres
     description: "Description for ebook #{i+1}",
     year: Time.zone.today - i.years,
     price: 9.99 + i,
-    seller: seller
+    seller: seller,
+    author: "William Zabka"
   )
 end
